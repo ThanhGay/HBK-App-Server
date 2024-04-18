@@ -4,7 +4,7 @@
 
 ------------------------------------ Table ------------------------------------
 
-
+select * from MovieShow  HaVing min((StartTime)) > GETDATE()group by Movie_Id
 -- Create Table Category ---- xong
 CREATE TABLE Category(
     Category_Id varchar(6),
