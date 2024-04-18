@@ -6,14 +6,18 @@ require('dotenv').config()
 const sqlConfig = {
     user : process.env.USER_NAME,
     password : process.env.PASSWORD,
-    server : process.env.SERVER,
+    database : process.env.DATABASE,
+    server : "localhost",
     pool : {
         max : 10,
         min : 0,
         idleTimeoutMillis: 30000,
     },
-    option: {
+    options: {
         encrypt : true,
         trustServerCertificate: true,
     },
 }
+console.log('Connect SQL: ', sql.connect(sqlConfig))
+
+module.exports = sql.connect(sqlConfig)

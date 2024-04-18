@@ -1,17 +1,21 @@
-// import
 const express = require('express');
+require('dotenv').config();
+const bodyParser = require('body-parser');
+const routerAccount = require('./src/router/AccountRoute')
+
 const app = express();
+const port = process.env.PORT||3000;
 
-require('dotenv').config()
-//config
-const Port = process.env.PORT || 3000
+// Sử dụng middleware để parse JSON từ request body
+app.use(express.json())
+
+// Mock database
+
+// Route đăng nhập
+app.use('/Account', routerAccount)
 
 
-
-//App
-app.get('/', function (req, res) {
-  res.send(process.env);
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
-app.listen(Port, function () {
-  console.log(`Example app listening on port ${Port}!`);
-});
+
