@@ -55,7 +55,7 @@ routerAccount.post("/SignUp", async (req, res) => {
       })
     }
 
-    res.json({ status: status, data: { items: data, accesToken: token, refreshToken: refreshToken }, msg: msg });
+    res.json({ status: status, data: { data_user: data, accesToken: token, refreshToken: refreshToken }, msg: msg });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
