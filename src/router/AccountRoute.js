@@ -19,17 +19,17 @@ routerAccount.post("/SignIn", async (req, res) => {
     let refreshToken = null;
 
     if (status) {
-        token = Token.generateAccessToken(postAccount.PhoneNumber);
-        refreshToken = Token.generateRefreshToken(postAccount.PhoneNumber);
-        res.cookie("refreshToken", refreshToken, {
-            httpOnly: true,
-            secure: true,
-            path: '/',
-            sameSite: 'strict'
-        })
-      }
-    
-    res.json({ status: status, data: data, accesTtoken: token, refreshToken: refreshToken , msg: msg });
+      token = Token.generateAccessToken(postAccount.PhoneNumber);
+      refreshToken = Token.generateRefreshToken(postAccount.PhoneNumber);
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: true,
+        path: '/',
+        sameSite: 'strict'
+      })
+    }
+
+    res.json({ status: status, data: { data_user: data[0], accesToken: token, refreshToken: refreshToken }, msg: msg });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -45,18 +45,18 @@ routerAccount.post("/SignUp", async (req, res) => {
     let token = null;
     let refreshToken = null;
     if (status) {
-        token = Token.generateAccessToken(postAccount.PhoneNumber);
-        refreshToken = Token.generateRefreshToken(postAccount.PhoneNumber);
-        res.cookie("refreshToken", refreshToken, {
-            httpOnly: true,
-            secure: true,
-            path: '/',
-            sameSite: 'strict'
-        })
-      }
+      token = Token.generateAccessToken(postAccount.PhoneNumber);
+      refreshToken = Token.generateRefreshToken(postAccount.PhoneNumber);
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: true,
+        path: '/',
+        sameSite: 'strict'
+      })
+    }
 
-      res.json({ status: status, data: data, accesTtoken: token, refreshToken: refreshToken , msg: msg });
-    } catch (error) {
+    res.json({ status: status, data: { items: data, accesToken: token, refreshToken: refreshToken }, msg: msg });
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
@@ -80,24 +80,24 @@ routerAccount.put(
 
 // đăng xuất tài khoản
 routerAccount.post('/SignOut', (req, res) => {
-    res.clearCookie('refreshToken')
-    res.json({ message: "Sign out successful" });
+  res.clearCookie('refreshToken')
+  res.json({ message: "Sign out successful" });
 })
 
 // xoá tài khoản 
 routerAccount.delete('/DeleteAccount', async (req, res) => {
-    const token = req.body.token; // Giả sử token được gửi dưới dạng thuộc tính 'token' trong body
+  const token = req.body.token; // Giả sử token được gửi dưới dạng thuộc tính 'token' trong body
 
-    try {
-        const decodedToken = jwt.verify(token, process.env.JWT_ACCESS_KEY);
-        const phoneNumber = decodedToken.PhoneNumber; 
-        const dataToken = { PhoneNumber : phoneNumber };
-        const data = await getDBAccount.deleteData(dataToken);
-        const msg = !! data ? "Success" : "Failure"
-        res.json({msg})
-    } catch (error) {
-        console.error('Error decoding token:', error);
-        res.status(500).json({ error: 'Error decoding token' });
-    }
+  try {
+    const decodedToken = jwt.verify(token, process.env.JWT_ACCESS_KEY);
+    const phoneNumber = decodedToken.PhoneNumber;
+    const dataToken = { PhoneNumber: phoneNumber };
+    const data = await getDBAccount.deleteData(dataToken);
+    const msg = !!data ? "Success" : "Failure"
+    res.json({ msg })
+  } catch (error) {
+    console.error('Error decoding token:', error);
+    res.status(500).json({ error: 'Error decoding token' });
+  }
 });
 module.exports = routerAccount;

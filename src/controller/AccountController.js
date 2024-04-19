@@ -25,7 +25,7 @@ const getDBAccount = {
       const pool = await connection;
       const request = pool.request();
       const query = `Insert into Account
-    Values (@PhoneNumber, @Password, @FullName, @Email,'male', @DataOfBirth, 0, 'Bronze')`;
+    Values (@PhoneNumber, @Password, @FullName, @Email,'male', @DateOfBirth, 0, 'Bronze')`;
       for (const key in data) {
         request.input(key, data[key]);
       }
