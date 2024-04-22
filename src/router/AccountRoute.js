@@ -61,14 +61,16 @@ routerAccount.post("/SignUp", async (req, res) => {
   }
 });
 
-// đổi mật khẩu bên
+// đổi mật khẩu (Profile)
 routerAccount.put(
   "/ChangePassword",
   middlewareController.verifyToken,
   async (req, res) => {
     try {
       const putAccount = req.body;
-      const data = await getDBAccount.putData(putAccount);
+      putAccount.PhoneNumber = req.PhoneNumber;
+      console.log(putAccount);
+      const data = await getDBAccount.putData( putAccount);
       const status = !!data;
       const msg = status ? "Success" : "Failure";
       res.json({ msg });
@@ -100,4 +102,88 @@ routerAccount.delete('/DeleteAccount', async (req, res) => {
     res.status(500).json({ error: 'Error decoding token' });
   }
 });
+
+// đặt lại mật khẩu
+routerAccount.put('/ForgotPassword', async(req, res) => {
+  try{
+    const putAccount = req.body;
+    if (putAccount.Password == putAccount.ConfirmPassword) {
+      const data = await getDBAccount.forgotPassword(putAccount);
+      res.json(data)
+    }
+    else{
+      res.json('Password does not match confirm')
+    }
+  }catch(error){
+    res.status(500).json({error: error.message})
+  }
+})
+
+// Sửa thông tin my account 
+routerAccount.put('/EditProfile',middlewareController.verifyToken, async(req, res) => {
+  try {
+    const putAccount = req.body;
+    putAccount.PhoneNumber = req.PhoneNumber;
+    const data = await getDBAccount.EditProfile(putAccount);
+    res.json(data)
+  } catch (error) {
+    if (error.message.includes('Violation of PRIMARY KEY') ) {
+      // Xử lý lỗi trùng khóa chính
+      res.status(400).json({ status: false, msg: 'Cannot edit information: Duplicate phone number.' });
+    } else if (error.message.includes('Conversion failed when converting date and/or time from character string.')) {
+      // Xử lý lỗi không định dạng được ngày tháng
+      res.status(400).json({ status: false, msg: 'Invalid date format error: Please enter a valid date.' });
+    } else {
+      // Xử lý các lỗi khác
+      console.error(error);
+      res.status(500).json({ status: false, msg: 'Internal server error.' });
+    }
+    
+  }
+})
+
+  // Thông tin chi tiết
+  routerAccount.post('/DetailProfile',middlewareController.verifyToken, async(req, res) => {
+    try {
+    const getAccount = {};
+     getAccount.PhoneNumber = req.PhoneNumber;    
+     console.log(getAccount);
+
+    const data = await getDBAccount.Profile(getAccount)
+    res.json(data)
+    } catch (error) {
+      res.status(500).json({error: error.message})
+    }
+   
+  })
+
+  // danh sách phim đang chiếu
+  routerAccount.get('/NowPlaying', async(req, res) => {
+    try {
+      const data = await getDBAccount.NowPlaying();
+      res.json(data)
+    } catch (error) {
+      res.status(500).json({error: error.message})
+    }
+  })
+
+  // danh sách phim đang chiếu
+  routerAccount.get('/ComingSoon', async(req, res) => {
+    try {
+      const data = await getDBAccount.ComingSoon();
+      res.json(data)
+    } catch (error) {
+      res.status(500).json({error: error.message})
+    }
+  })
+
+  // danh sách danh sách lịch chiếu theo phim
+  routerAccount.get('/movieScheduleList', async(req, res) => {
+    try {
+      const data = await getDBAccount.movieScheduleList();
+      res.json(data)
+    } catch (error) {
+      
+    }
+  })
 module.exports = routerAccount;
