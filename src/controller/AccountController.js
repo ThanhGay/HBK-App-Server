@@ -1,5 +1,10 @@
 const { json } = require("body-parser");
+const moment = require('moment');
+
+// const now = moment(); // Lấy thời gian hiện tại
+
 const connection = require("../config/database");
+
 // const { connect } = require("mssql");
 const getDBAccount = {
   getData: async (data) => {
@@ -155,6 +160,11 @@ const getDBAccount = {
       from Movie as a INNER JOIN MovieShow as b 
       ON a.Movie_Id = b.Movie_Id`;
       const result = await request.query(query);
+      result.recordset.forEach(record => {
+        record.ShowDate = moment(record.ShowDate).format('YYYY-MM-DD');
+        record.ShowTime = moment(record.ShowTime).format('HH:mm:ss');
+    });
+      console.log(result);
       return result.recordset
     } catch (error) {
       console.error(error);

@@ -16,9 +16,13 @@
 -- select * from  MovieShow
 
 -- danh sách lịch chiếu theo phim
-select * from Movie  INNER JOIN MovieShow ON Movie.Movie_Id = MovieShow.Movie_Id
+select a.* , CONVERT(date,StartTime) as ShowDate, CONVERT(Time, StartTime) as ShowTime from   Movie as a INNER JOIN MovieShow as b ON a.Movie_Id = b.Movie_Id
 select * from movieShow
 select date('2024-04-16 07:00:00.000')
+
+select * from Ticket_Seat 
+
+select * from Invoice as a INNER JOIN (select Invoice_Id,count(Invoice_Id), count(Invoice_Id) * 50 as money from ticket group by (Invoice_Id) ) as b On a.Invoice_Id = b.invoice_Id
 
 -- select * from MovieShow INNER JOIN Ticket_Seat
 -- today + 3 < ngày khởi chiếu, lịch kết thúc 

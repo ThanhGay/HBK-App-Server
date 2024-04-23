@@ -129,14 +129,14 @@ routerAccount.put('/EditProfile',middlewareController.verifyToken, async(req, re
   } catch (error) {
     if (error.message.includes('Violation of PRIMARY KEY') ) {
       // Xử lý lỗi trùng khóa chính
-      res.status(400).json({ status: false, msg: 'Cannot edit information: Duplicate phone number.' });
+      res.status(400).json({ status: false,data: null, msg: 'Cannot edit information: Phone number already exists.' });
     } else if (error.message.includes('Conversion failed when converting date and/or time from character string.')) {
       // Xử lý lỗi không định dạng được ngày tháng
-      res.status(400).json({ status: false, msg: 'Invalid date format error: Please enter a valid date.' });
+      res.status(400).json({ status: false,data: null, msg: 'Invalid date format error: Please enter a valid date.' });
     } else {
       // Xử lý các lỗi khác
       console.error(error);
-      res.status(500).json({ status: false, msg: 'Internal server error.' });
+      res.status(500).json({ status: false,data: null, msg: 'Internal server error.' });
     }
     
   }
