@@ -14,16 +14,16 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Route đăng nhập
-app.use("/Account", routerAccount);
+app.use("/account", routerAccount);
 
 // Refresh Token
-app.use("/Refresh", routerToken);
+app.use("/refresh", routerToken);
 
 // Route phim
-app.use("/Movie", routerMovie);
+app.use("/movie", routerMovie);
 
 // Route vé
-app.use("/Ticket", routerTicket);
+app.use("/ticket", routerTicket);
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

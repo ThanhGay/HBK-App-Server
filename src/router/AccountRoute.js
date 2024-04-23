@@ -7,7 +7,7 @@ const middlewareController = require("../controller/middlewareController");
 const Token = require("../controller/TokenController");
 
 // đăng nhập
-routerAccount.post("/SignIn", async (req, res) => {
+routerAccount.post("/sign-in", async (req, res) => {
     try {
         const postAccount = req.body;
         console.log(postAccount);
@@ -43,7 +43,7 @@ routerAccount.post("/SignIn", async (req, res) => {
 });
 
 // đăng ký
-routerAccount.post("/SignUp", async (req, res) => {
+routerAccount.post("/sign-up", async (req, res) => {
     try {
         const postAccount = req.body;
         const data = await getDBAccount.postData(postAccount);
@@ -78,7 +78,7 @@ routerAccount.post("/SignUp", async (req, res) => {
 
 // đổi mật khẩu (Profile)
 routerAccount.put(
-    "/ChangePassword",
+    "/change-password",
     middlewareController.verifyToken,
     async (req, res) => {
         try {
@@ -96,7 +96,7 @@ routerAccount.put(
 );
 
 // đăng xuất tài khoản
-routerAccount.post("/SignOut", (req, res) => {
+routerAccount.post("/sign-out", (req, res) => {
     res.clearCookie("refreshToken");
     res.json({ message: "Sign out successful" });
 });
@@ -119,7 +119,7 @@ routerAccount.delete("/DeleteAccount", async (req, res) => {
 });
 
 // đặt lại mật khẩu
-routerAccount.put("/ForgotPassword", async (req, res) => {
+routerAccount.put("/forgot-password", async (req, res) => {
     try {
         const putAccount = req.body;
         if (putAccount.Password == putAccount.ConfirmPassword) {
@@ -135,7 +135,7 @@ routerAccount.put("/ForgotPassword", async (req, res) => {
 
 // Sửa thông tin my account
 routerAccount.put(
-    "/EditProfile",
+    "/edit-profile",
     middlewareController.verifyToken,
     async (req, res) => {
         try {
@@ -174,7 +174,7 @@ routerAccount.put(
 
 // Thông tin chi tiết
 routerAccount.post(
-    "/DetailProfile",
+    "/detail-profile",
     middlewareController.verifyToken,
     async (req, res) => {
         try {
