@@ -54,7 +54,6 @@ CREATE TABLE Movie
     Movie_Id varchar(6),
     Movie_Name nvarchar(200),
     Duration int,
-    Price money,
     Censorship tinyint,
     Language nvarchar(30),
     Release Date,
@@ -182,7 +181,7 @@ Create Table Account
 -- Create Table Invoice
 Create Table Invoice
 (
-    Invoice_Id varchar(6),
+    Invoice_Id Int IDENTITY(1,1),
     InvoiceDate datetime,
     TotalAmount money,
     PhoneNumber char(10),
@@ -196,7 +195,7 @@ Create Table Invoice
 Create Table Product_Invoice
 (
     Product_Id varchar(6),
-    Invoice_Id varchar(6),
+    Invoice_Id INT,
     Quantity int,
     PRIMARY KEY (Product_Id, Invoice_Id),
     FOREIGN KEY (Product_Id) REFERENCES Product(Product_Id),
@@ -208,9 +207,9 @@ Create Table Product_Invoice
 -- Create Table Ticket
 Create Table Ticket
 (
-    Ticket_Id varchar(6),
-    Cost money,
-    Invoice_Id varchar(6),
+    Ticket_Id Int IDENTITY(1,1),
+    Cost money ,
+    Invoice_Id int,
     StartTime datetime,
     Seat_Id varchar(3),
     Room_Id varchar(3),

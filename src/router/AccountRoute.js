@@ -7,7 +7,7 @@ const middlewareController = require("../controller/middlewareController");
 const Token = require("../controller/TokenController");
 
 // đăng nhập
-routerAccount.post("/SignIn", async (req, res) => {
+routerAccount.post("/sign-in", async (req, res) => {
     try {
         const postAccount = req.body;
         console.log(postAccount);
@@ -43,7 +43,7 @@ routerAccount.post("/SignIn", async (req, res) => {
 });
 
 // đăng ký
-routerAccount.post("/SignUp", async (req, res) => {
+routerAccount.post("/sign-up", async (req, res) => {
     try {
         const postAccount = req.body;
         const data = await getDBAccount.postData(postAccount);
@@ -78,7 +78,7 @@ routerAccount.post("/SignUp", async (req, res) => {
 
 // đổi mật khẩu (Profile)
 routerAccount.put(
-    "/ChangePassword",
+    "/change-password",
     middlewareController.verifyToken,
     async (req, res) => {
         try {
@@ -96,7 +96,7 @@ routerAccount.put(
 );
 
 // đăng xuất tài khoản
-routerAccount.post("/SignOut", (req, res) => {
+routerAccount.post("/sign-out", (req, res) => {
     res.clearCookie("refreshToken");
     res.json({ message: "Sign out successful" });
 });
@@ -119,7 +119,7 @@ routerAccount.delete("/DeleteAccount", async (req, res) => {
 });
 
 // đặt lại mật khẩu
-routerAccount.put("/ForgotPassword", async (req, res) => {
+routerAccount.put("/forgot-password", async (req, res) => {
     try {
         const putAccount = req.body;
         if (putAccount.Password == putAccount.ConfirmPassword) {
@@ -133,32 +133,48 @@ routerAccount.put("/ForgotPassword", async (req, res) => {
     }
 });
 
-// Sửa thông tin my account 
-routerAccount.put('/EditProfile',middlewareController.verifyToken, async(req, res) => {
-  try {
-    const putAccount = req.body;
-    putAccount.PhoneNumber = req.PhoneNumber;
-    const data = await getDBAccount.EditProfile(putAccount);
-    res.json(data)
-  } catch (error) {
-    if (error.message.includes('Violation of PRIMARY KEY') ) {
-      // Xử lý lỗi trùng khóa chính
-      res.status(400).json({ status: false, msg: 'Cannot edit information: Duplicate phone number.' });
-    } else if (error.message.includes('Conversion failed when converting date and/or time from character string.')) {
-      // Xử lý lỗi không định dạng được ngày tháng
-      res.status(400).json({ status: false, msg: 'Invalid date format error: Please enter a valid date.' });
-    } else {
-      // Xử lý các lỗi khác
-      console.error(error);
-      res.status(500).json({ status: false, msg: 'Internal server error.' });
+// Sửa thông tin my account
+routerAccount.put(
+    "/edit-profile",
+    middlewareController.verifyToken,
+    async (req, res) => {
+        try {
+            const putAccount = req.body;
+            putAccount.PhoneNumber = req.PhoneNumber;
+            const data = await getDBAccount.EditProfile(putAccount);
+            res.json(data);
+        } catch (error) {
+            if (error.message.includes("Violation of PRIMARY KEY")) {
+                // Xử lý lỗi trùng khóa chính
+                res.status(400).json({
+                    status: false,
+                    msg: "Cannot edit information: Duplicate phone number.",
+                });
+            } else if (
+                error.message.includes(
+                    "Conversion failed when converting date and/or time from character string."
+                )
+            ) {
+                // Xử lý lỗi không định dạng được ngày tháng
+                res.status(400).json({
+                    status: false,
+                    msg: "Invalid date format error: Please enter a valid date.",
+                });
+            } else {
+                // Xử lý các lỗi khác
+                console.error(error);
+                res.status(500).json({
+                    status: false,
+                    msg: "Internal server error.",
+                });
+            }
+        }
     }
-    
-  }
-})
+);
 
 // Thông tin chi tiết
 routerAccount.post(
-    "/DetailProfile",
+    "/detail-profile",
     middlewareController.verifyToken,
     async (req, res) => {
         try {
