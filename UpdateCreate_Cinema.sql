@@ -16,14 +16,18 @@
 -- select * from  MovieShow
 
 -- danh sách lịch chiếu theo phim
-select a.* , CONVERT(date,StartTime) as ShowDate, CONVERT(Time, StartTime) as ShowTime from   Movie as a INNER JOIN MovieShow as b ON a.Movie_Id = b.Movie_Id
-select * from movieShow
-select date('2024-04-16 07:00:00.000')
+-- select a.* , CONVERT(date,StartTime) as ShowDate, CONVERT(Time, StartTime) as ShowTime from   Movie as a INNER JOIN MovieShow as b ON a.Movie_Id = b.Movie_Id
+-- select * from movieShow
+-- select date('2024-04-16 07:00:00.000')
 
-select * from Ticket_Seat 
+-- select * from Ticket_Seat 
 
-select * from Invoice as a INNER JOIN (select Invoice_Id,count(Invoice_Id), count(Invoice_Id) * 50 as money from ticket group by (Invoice_Id) ) as b On a.Invoice_Id = b.invoice_Id
-
+-- select * from Invoice as a INNER JOIN (select Invoice_Id, count(Invoice_Id) * 50 as money from ticket group by (Invoice_Id) ) as b On a.Invoice_Id = b.invoice_Id
+-- select a.* , 
+--       CONVERT(date,StartTime) as ShowDate, 
+--       CONVERT(Time, StartTime) as ShowTime 
+--       from Movie as a INNER JOIN MovieShow as b 
+--       ON a.Movie_Id = b.Movie_Id
 -- select * from MovieShow INNER JOIN Ticket_Seat
 -- today + 3 < ngày khởi chiếu, lịch kết thúc 
 -- ngày hiện tại < 
@@ -208,23 +212,16 @@ Create Table Ticket
     Cost money,
     Invoice_Id varchar(6),
     StartTime datetime,
+    Seat_Id varchar(3),
+    Room_Id varchar(3),
     PRIMARY KEY (Ticket_Id),
     FOREIGN KEY (Invoice_Id) REFERENCES Invoice(Invoice_Id),
     FOREIGN KEY (StartTime) REFERENCES MovieShow(StartTime),
+    FOREIGN KEY (Seat_Id, Room_Id) REFERENCES Seat(Seat_Id, Room_Id),
+
 );
 
 
-
--- Create Table Ticket_Seat 
-Create Table Ticket_Seat
-(
-    Ticket_Id varchar(6),
-    Seat_Id varchar(3),
-    Room_Id varchar(3),
-    PRIMARY KEY (Ticket_Id, Seat_Id, Room_Id),
-    FOREIGN KEY (Ticket_Id) REFERENCES Ticket(Ticket_Id),
-    FOREIGN KEY (Seat_Id, Room_Id) REFERENCES Seat(Seat_Id, Room_Id),
-)
 
 
 

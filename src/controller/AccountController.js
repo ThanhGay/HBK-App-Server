@@ -160,11 +160,6 @@ const getDBAccount = {
       from Movie as a INNER JOIN MovieShow as b 
       ON a.Movie_Id = b.Movie_Id`;
       const result = await request.query(query);
-      result.recordset.forEach(record => {
-        record.ShowDate = moment(record.ShowDate).format('YYYY-MM-DD');
-        record.ShowTime = moment(record.ShowTime).format('HH:mm:ss');
-    });
-      console.log(result);
       return result.recordset
     } catch (error) {
       console.error(error);
