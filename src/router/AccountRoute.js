@@ -112,7 +112,7 @@ routerAccount.delete("/deleteData", async (req, res) => {
         const dataToken = { PhoneNumber: phoneNumber };
         const data = await getDBAccount.deleteData(dataToken);
         const msg = !!data ? "Success" : "Failure";
-        res.json({ msg });
+        res.json(processDataInfo(data));
     } catch (error) {
         console.error("Error decoding token:", error);
         res.status(500).json({ error: "Error decoding token" });
@@ -125,7 +125,7 @@ routerAccount.put("/forgot-password", async (req, res) => {
         const putAccount = req.body;
         if (putAccount.Password == putAccount.ConfirmPassword) {
             const data = await getDBAccount.forgotPassword(putAccount);
-            res.json(data);
+            res.json(processDataInfo(data));
         } else {
             res.json("Password does not match confirm");
         }
@@ -143,7 +143,7 @@ routerAccount.put(
             const putAccount = req.body;
             putAccount.PhoneNumber = req.PhoneNumber;
             const data = await getDBAccount.EditProfile(putAccount);
-            res.json(data);
+            res.json(processDataInfo(data));
         } catch (error) {
             if (error.message.includes("Violation of PRIMARY KEY")) {
                 // Xử lý lỗi trùng khóa chính
