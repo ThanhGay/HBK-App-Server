@@ -15,7 +15,7 @@ routerAccount.post("/sign-in", async (req, res) => {
         console.log(postAccount);
         const data = await getDBAccount.getData(postAccount);
         const status = !!data.length;
-        const msg = status ? "Success" : "Failure";
+        const msg = status ? "Đăng nhập thành công" : "Đăng nhập thất bại";
         let token = null;
         let refreshToken = null;
 
