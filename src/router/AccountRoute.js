@@ -5,8 +5,7 @@ const routerAccount = express.Router();
 const getDBAccount = require("../controller/AccountController");
 const middlewareController = require("../controller/middlewareController");
 const Token = require("../controller/TokenController");
-const processDataInfo = require('../processData/processDataInfo')
-
+const processDataInfo = require("../processData/processDataInfo");
 
 // đăng nhập
 routerAccount.post("/sign-in", async (req, res) => {
@@ -50,7 +49,7 @@ routerAccount.post("/sign-up", async (req, res) => {
         const postAccount = req.body;
         const data = await getDBAccount.postData(postAccount);
         const status = true;
-        const msg = status ? "Success" : "Failure";
+        const msg = status ? "Đăng ký thành công" : "Đăng ký thất bại";
         let token = null;
         let refreshToken = null;
         if (status) {
