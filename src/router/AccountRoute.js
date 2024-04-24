@@ -5,6 +5,8 @@ const routerAccount = express.Router();
 const getDBAccount = require("../controller/AccountController");
 const middlewareController = require("../controller/middlewareController");
 const Token = require("../controller/TokenController");
+const processDataInfo = require('../processData/processDataInfo')
+
 
 // đăng nhập
 routerAccount.post("/sign-in", async (req, res) => {
@@ -86,9 +88,8 @@ routerAccount.put(
             putAccount.PhoneNumber = req.PhoneNumber;
             console.log(putAccount);
             const data = await getDBAccount.putData(putAccount);
-            const status = !!data;
-            const msg = status ? "Success" : "Failure";
-            res.json({ msg });
+            console.log(data);
+            res.json(processDataInfo(data));
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -102,7 +103,7 @@ routerAccount.post("/sign-out", (req, res) => {
 });
 
 // xoá tài khoản
-routerAccount.delete("/DeleteAccount", async (req, res) => {
+routerAccount.delete("/deleteData", async (req, res) => {
     const token = req.body.token; // Giả sử token được gửi dưới dạng thuộc tính 'token' trong body
 
     try {

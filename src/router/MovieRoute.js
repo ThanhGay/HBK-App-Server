@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const routerMovie = express.Router();
 const getDBMovie = require("../controller/MovieController");
+const processDataInfo = require('../processData/processDataInfo') 
 const middlewareController = require("../controller/middlewareController");
 const Token = require("../controller/TokenController");
 
@@ -10,29 +11,30 @@ const Token = require("../controller/TokenController");
 routerMovie.get("/now-playing", async (req, res) => {
     try {
         const data = await getDBMovie.NowPlaying();
-        res.json(data);
+        res.json(processDataInfo(data));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// danh sách phim đang chiếu
+// danh sách phim sắp chiếu
 routerMovie.get("/coming-soon", async (req, res) => {
     try {
         const data = await getDBMovie.ComingSoon();
-        res.json(data);
+        res.json(processDataInfo(data));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// danh sách danh sách lịch chiếu theo phim  ??? đang sai
-// truyền id của phim lên và trả về danh sách lịch chiếu của phim đó
 
-routerMovie.get("/showtimes", async (req, res) => {
+    // xong
+
+routerMovie.post("/showtimes", async (req, res) => {
     try {
-        const data = await getDBMovie.movieScheduleList();
-        res.json(data);
+        const postData = req.body
+        const data = await getDBMovie.movieScheduleList(postData);
+        res.json(processDataInfo(data));
     } catch (error) {}
 });
 

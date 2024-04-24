@@ -40,7 +40,7 @@ Get http://localhost:8888/Account/ComingSoon
 
 # danh sách lịch chiếu theo phim
 
-get http://localhost:8888/Account/movieScheduleList
+Post http://localhost:8888/Account/movieScheduleList
 
 # Refresh Token
 

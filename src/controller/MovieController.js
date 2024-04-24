@@ -1,13 +1,24 @@
 const { json } = require("body-parser");
 const connection = require("../config/database");
 
+
 const getDBMovie = {
     NowPlaying: async () => {
         try {
             const pool = await connection;
             const request = pool.request();
-            const query = `select * from Movie
-      where GETDATE() BETWEEN  Release and Expiration`;
+            const query = 
+            `SELECT 
+            M.Movie_Id, 
+            M.Movie_Name, 
+            M.Poster, 
+            (SELECT STRING_AGG(C.Category_Name, ', ') 
+             FROM Movie_Category AS MC 
+             INNER JOIN Category AS C ON MC.Category_Id = C.Category_Id 
+             WHERE MC.Movie_Id = M.Movie_Id) AS Categories, 
+            M.Duration 
+            FROM Movie AS M 
+            WHERE GETDATE() BETWEEN M.Release AND M.Expiration;`;
             const result = await request.query(query);
             return result.recordset;
         } catch (error) {
@@ -15,12 +26,23 @@ const getDBMovie = {
             throw error;
         }
     },
+
     ComingSoon: async () => {
         try {
             const pool = await connection;
             const request = pool.request();
-            const query = `select * from Movie
-      where GETDATE() < Release`;
+            const query = 
+            `SELECT 
+            M.Movie_Id, 
+            M.Movie_Name, 
+            M.Poster, 
+            (SELECT STRING_AGG(C.Category_Name, ', ') 
+             FROM Movie_Category AS MC 
+             INNER JOIN Category AS C ON MC.Category_Id = C.Category_Id 
+             WHERE MC.Movie_Id = M.Movie_Id) AS Categories, 
+            M.Release 
+            FROM Movie AS M 
+        WHERE GETDATE() < Release`;
             const result = await request.query(query);
             return result.recordset;
         } catch (error) {
@@ -28,15 +50,17 @@ const getDBMovie = {
             throw error;
         }
     },
-    movieScheduleList: async () => {
+
+    // xong
+    movieScheduleList: async (data) => {
         try {
             const pool = await connection;
             const request = pool.request();
-            const query = `select a.* , 
-      CONVERT(date,StartTime) as ShowDate, 
-      CONVERT(Time, StartTime) as ShowTime 
-      from Movie as a INNER JOIN MovieShow as b 
-      ON a.Movie_Id = b.Movie_Id`;
+            const query = `select a.* , b.StartTime 
+            from Movie as a INNER JOIN MovieShow as b 
+            ON a.Movie_Id = b.Movie_Id
+            Where a.Movie_Id = @Movie_Id and GETDATE() <= Convert(Date,b.StartTime)  `;
+            request.input('Movie_Id', data.Movie_Id)
             const result = await request.query(query);
             return result.recordset;
         } catch (error) {
@@ -44,6 +68,9 @@ const getDBMovie = {
             throw error;
         }
     },
+    movieInfo : async () => {
+
+    }
 };
 
 module.exports = getDBMovie;

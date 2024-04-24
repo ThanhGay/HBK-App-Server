@@ -2,7 +2,6 @@ const { json } = require("body-parser");
 const moment = require('moment');
 
 // const now = moment(); // Lấy thời gian hiện tại
-
 const connection = require("../config/database");
 
 // const { connect } = require("mssql");
@@ -53,7 +52,7 @@ const getDBAccount = {
       }
       const result = await request.query(query);
 
-      return result.rowsAffected > 0;
+      return result.rowsAffected ;
     } catch (error) {
       console.error(error);
       throw error;

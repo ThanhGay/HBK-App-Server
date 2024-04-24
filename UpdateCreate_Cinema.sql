@@ -4,7 +4,45 @@
 ------------------------------------ Table ------------------------------------
 
 -- Select rows from a Table or Account' in schema '[dbo]'
+    // Danh  sách phim đang chiếu trả ra ít thôi, chỉ cần trả ra { id, tên, ảnh, thể loại, sao, thời lượng }
+    Còn danh sách phim sắp chiếu thì trả về { id, tên, ảnh, thể loại, ngày khởi chiếu  }
+SELECT 
+    M.Movie_Id, 
+    M.Movie_Name, 
+    M.Poster, 
+    (SELECT STRING_AGG(C.Category_Name, ', ') 
+     FROM Movie_Category AS MC 
+     INNER JOIN Category AS C ON MC.Category_Id = C.Category_Id 
+     WHERE MC.Movie_Id = M.Movie_Id) AS Categories, 
+    M.Duration 
+FROM 
+    Movie AS M 
+WHERE 
+     GETDATE() < Release
 
+
+
+select Movie_Id, Movie_name, from Movie
+      where GETDATE() < Release
+      from Movie inner join Movie_Category 
+on Movie.Movie_Id = Movie_Category.Movie_Id INNER JOIN Category ON Movie_Category.Category_Id = Category.Category_Id
+      where GETDATE() BETWEEN  Release and Expiration
+
+
+      SELECT 
+    M.Movie_Id, 
+    M.Movie_Name, 
+    M.Poster, 
+    (SELECT STRING_AGG(C.Category_Name, ', ') 
+     FROM Movie_Category AS MC 
+     INNER JOIN Category AS C ON MC.Category_Id = C.Category_Id 
+     WHERE MC.Movie_Id = M.Movie_Id) AS Categories, 
+    M.Duration 
+FROM 
+    Movie AS M 
+WHERE 
+    M.Movie_Id = 'MV005' 
+    AND GETDATE() BETWEEN M.Release AND M.Expiration;
 -- select * from Account
 -- from Invoice 
 -- INNER Join Ticket on Invoice.Invoice_Id = Ticket.Invoice_Id 
@@ -312,66 +350,66 @@ VALUES
 
 
 INSERT INTO Movie
-    (Movie_Id, Movie_Name, Duration, Price, Censorship, Language,Release, Expiration, Description, Poster)
+    (Movie_Id, Movie_Name, Duration, Censorship, Language,Release, Expiration, Description, Poster)
 VALUES
-    ('MV001', N'The Shawshank Redemption', 142, 100000, 13, N'English','2024/04/21','2024/04/28' ,N'A story of hope and friendship in a prison setting.', 'https://.../shawshank.jpg'),
-    ('MV002', N'Spirited Away', 125, 80000, 0, N'Japanese','2024/04/21','2024/04/28', N'A coming-of-age story about a girl in the spirit world.', 'https://.../spiritedaway.jpg'),
-    ('MV003', N'The Dark Knight', 152, 120000, 16, N'English','2024/04/21','2024/04/28', N'A superhero movie exploring themes of good and evil.', 'https://.../darknight.jpg'),
-    ('MV004', N'The Lord of the Rings: The Fellowship of the Ring', 178, 150000, 13, N'English','2024/04/21','2024/04/28', N'An epic fantasy adventure about a hobbit and his friends on a quest to destroy the One Ring.', 'https://.../lotr1.jpg'),
-    ('MV005', N'The Godfather', 175, 120000, 18, N'English','2024/04/21','2024/04/28', N'A classic gangster film about the Corleone family.', 'https://.../godfather.jpg'),
-    ('MV006', N'The Dark Knight Rises', 165, 130000, 16, N'English','2024/04/21','2024/04/28', N'The final installment in Christopher Nolans Batman trilogy.', 'https://.../darkknightrises.jpg'),
-    ('MV007', N'Inception', 148, 110000, 13, N'English','2024/04/21','2024/04/28', N'A science fiction thriller about a team of thieves who steal corporate secrets by entering people dreams.', 'https://.../inception.jpg'),
-    ('MV008', N'The Matrix', 136, 100000, 16, N'English','2024/04/21','2024/04/28', N'A science fiction action film about a computer hacker who learns that the world he lives in is actually a computer simulation.', 'https://.../matrix.jpg'),
-    ('MV009', N'Interstellar', 169, 140000, 13, N'English','2024/04/21','2024/04/28', N'A science fiction adventure film about a team of astronauts who travel through a wormhole in search of a new home for humanity.', 'https://.../interstellar.jpg'),
-    ('MV010', N'The Shawshank Redemption', 142, 100000, 13, N'English','2024/04/21','2024/04/28', N'A story of hope and friendship in a prison setting.', 'https://.../shawshank.jpg'),
-    ('MV011', N'The Godfather: Part II', 200, 120000, 18, N'English','2024/04/21','2024/04/28', N'The sequel to The Godfather, following the Corleone family in the 1950s.', 'https://.../godfather2.jpg'),
-    ('MV012', N'The Dark Knight', 152, 120000, 16, N'English','2024/04/21','2024/04/28', N'A superhero movie exploring themes of good and evil.', 'https://.../darknight.jpg'),
-    ('MV013', N'Pulp Fiction', 154, 100000, 18, N'English','2024/04/21','2024/04/28', N'A neo-noir crime film with a highly stylized and nonlinear plot.', 'https://.../pulpfiction.jpg'),
-    ('MV014', N'The Lord of the Rings: The Two Towers', 179, 150000, 13, N'English','2024/04/21','2024/04/28', N'The second installment in The Lord of the Rings trilogy.', 'https://.../lotr2.jpg');
+    ('MV001', N'The Shawshank Redemption', 142, 13, N'English','2024/04/21','2024/04/28' ,N'A story of hope and friendship in a prison setting.', 'https://.../shawshank.jpg'),
+    ('MV002', N'Spirited Away', 125, 0, N'Japanese','2024/04/21','2024/04/28', N'A coming-of-age story about a girl in the spirit world.', 'https://.../spiritedaway.jpg'),
+    ('MV003', N'The Dark Knight', 152, 16, N'English','2024/04/21','2024/04/28', N'A superhero movie exploring themes of good and evil.', 'https://.../darknight.jpg'),
+    ('MV004', N'The Lord of the Rings: The Fellowship of the Ring', 178, 13, N'English','2024/04/21','2024/04/28', N'An epic fantasy adventure about a hobbit and his friends on a quest to destroy the One Ring.', 'https://.../lotr1.jpg'),
+    ('MV005', N'The Godfather', 175, 18, N'English','2024/04/21','2024/04/28', N'A classic gangster film about the Corleone family.', 'https://.../godfather.jpg'),
+    ('MV006', N'The Dark Knight Rises', 165, 16, N'English','2024/04/21','2024/04/28', N'The final installment in Christopher Nolans Batman trilogy.', 'https://.../darkknightrises.jpg'),
+    ('MV007', N'Inception', 148, 13, N'English','2024/04/21','2024/04/28', N'A science fiction thriller about a team of thieves who steal corporate secrets by entering people dreams.', 'https://.../inception.jpg'),
+    ('MV008', N'The Matrix', 136, 16, N'English','2024/04/21','2024/04/28', N'A science fiction action film about a computer hacker who learns that the world he lives in is actually a computer simulation.', 'https://.../matrix.jpg'),
+    ('MV009', N'Interstellar', 169, 13, N'English','2024/04/21','2024/04/28', N'A science fiction adventure film about a team of astronauts who travel through a wormhole in search of a new home for humanity.', 'https://.../interstellar.jpg'),
+    ('MV010', N'The Shawshank Redemption', 142, 13, N'English','2024/04/21','2024/04/28', N'A story of hope and friendship in a prison setting.', 'https://.../shawshank.jpg'),
+    ('MV011', N'The Godfather: Part II', 200, 18, N'English','2024/04/21','2024/04/28', N'The sequel to The Godfather, following the Corleone family in the 1950s.', 'https://.../godfather2.jpg'),
+    ('MV012', N'The Dark Knight', 152, 16, N'English','2024/04/21','2024/04/28', N'A superhero movie exploring themes of good and evil.', 'https://.../darknight.jpg'),
+    ('MV013', N'Pulp Fiction', 154, 18, N'English','2024/04/21','2024/04/28', N'A neo-noir crime film with a highly stylized and nonlinear plot.', 'https://.../pulpfiction.jpg'),
+    ('MV014', N'The Lord of the Rings: The Two Towers', 179, 13, N'English','2024/04/21','2024/04/28', N'The second installment in The Lord of the Rings trilogy.', 'https://.../lotr2.jpg');
     
 
 INSERT INTO Movie
-    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration,  Price, Description, Poster)
+    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0001', N'Đào, Phở và Piano', 100, 15, 'Vietnamese','2024/04/21','2024/04/28', 45000, N'Bộ phim kể về trận chiến đông xuân kéo dài 60 ngày đêm tại thủ đô Hà Nội, và dõi theo cuộc sống của chàng dân quân mang tên Văn Dân và mối tình đầy mê hoặc với cô tiểu thư đam mê đàn dương cầm tên Thục Hương. Trong những trận đánh cuối trước lúc quân ta chuẩn bị rút lui khỏi thủ đô để chuẩn bị cho cuộc kháng chiến lâu dài, một số người quyết định ở lại trong mảnh đất đã tan hoang này vì bom đạn, không màng đến những nguy hiểm đang chờ đợi phía trước. Họ, dù có tên hay không, cùng nhau viết nên câu chuyện đầy bi kịch nhưng cũng không kém phần lãng mạn về tinh thần của Hà Nội trong ngày Tết và khói lửa của chiến tranh. Một người lính đã rất dũng cảm vượt qua bom đạn để mang về một nhánh hoa xuân nhằm mang niềm vui Tết cùng đồng đội. Anh ta cũng có một lễ cưới đầy tính cảm với cô tiểu thư xinh đẹp giữa bối cảnh Hà Nội vỡ nát. Trong đám cưới có một người họa sĩ già, người ở lại để nhớ về những người đã anh dũng hy sinh, cùng một vị linh mục với mong muốn sự yên ổn và không chiến tranh, họ cùng nhau thưởng thức một bát phở, trò chuyện và uống rượu để chào đón một ngày mới, ngày của sự hy sinh.', 'https://drive.google.com/file/d/1HVV6SGUENAWyowPeKIiO6UiKSCriqMQd/view?usp=sharing')
+    ('MV0001', N'Đào, Phở và Piano', 100, 15, 'Vietnamese','2024/04/21','2024/04/28', N'Bộ phim kể về trận chiến đông xuân kéo dài 60 ngày đêm tại thủ đô Hà Nội, và dõi theo cuộc sống của chàng dân quân mang tên Văn Dân và mối tình đầy mê hoặc với cô tiểu thư đam mê đàn dương cầm tên Thục Hương. Trong những trận đánh cuối trước lúc quân ta chuẩn bị rút lui khỏi thủ đô để chuẩn bị cho cuộc kháng chiến lâu dài, một số người quyết định ở lại trong mảnh đất đã tan hoang này vì bom đạn, không màng đến những nguy hiểm đang chờ đợi phía trước. Họ, dù có tên hay không, cùng nhau viết nên câu chuyện đầy bi kịch nhưng cũng không kém phần lãng mạn về tinh thần của Hà Nội trong ngày Tết và khói lửa của chiến tranh. Một người lính đã rất dũng cảm vượt qua bom đạn để mang về một nhánh hoa xuân nhằm mang niềm vui Tết cùng đồng đội. Anh ta cũng có một lễ cưới đầy tính cảm với cô tiểu thư xinh đẹp giữa bối cảnh Hà Nội vỡ nát. Trong đám cưới có một người họa sĩ già, người ở lại để nhớ về những người đã anh dũng hy sinh, cùng một vị linh mục với mong muốn sự yên ổn và không chiến tranh, họ cùng nhau thưởng thức một bát phở, trò chuyện và uống rượu để chào đón một ngày mới, ngày của sự hy sinh.', 'https://drive.google.com/file/d/1HVV6SGUENAWyowPeKIiO6UiKSCriqMQd/view?usp=sharing')
 INSERT INTO Movie
-    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration,  Price, Description, Poster)
+    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0002', N'Godzilla x Kong: The New Emprise', 115, 13, 'English','2024/04/21','2024/04/28', 45000, N'Kong và Godzilla - hai sinh vật vĩ đại huyền thoại, hai kẻ thủ truyền kiếp sẽ cùng bắt tay thực thi một sứ mệnh chung mang tính sống còn để bảo vệ nhân loại, và trận chiến gắn kết chúng với loài người mãi mãi sẽ bắt đầu.', 'https://drive.google.com/file/d/1AiGX5nUZ-GYAu5VaKeOuIcjUkpS2E0lf/view?usp=sharing')
+    ('MV0002', N'Godzilla x Kong: The New Emprise', 115, 13, 'English','2024/04/21','2024/04/28', N'Kong và Godzilla - hai sinh vật vĩ đại huyền thoại, hai kẻ thủ truyền kiếp sẽ cùng bắt tay thực thi một sứ mệnh chung mang tính sống còn để bảo vệ nhân loại, và trận chiến gắn kết chúng với loài người mãi mãi sẽ bắt đầu.', 'https://drive.google.com/file/d/1AiGX5nUZ-GYAu5VaKeOuIcjUkpS2E0lf/view?usp=sharing')
 INSERT INTO Movie
-    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration,  Price, Description, Poster)
+    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0003', N'Avengers: Infinity War', 165, 15, 'English','2024/04/21','2024/04/28', 55000, N'Mô tả chi tiết phim Biệt đội báo thù', 'chua co')
+    ('MV0003', N'Avengers: Infinity War', 165, 15, 'English','2024/04/21','2024/04/28', N'Mô tả chi tiết phim Biệt đội báo thù', 'chua co')
 INSERT INTO Movie
-    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration,  Price, Description, Poster)
+    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0004', N'Batman VS Superman', 110, 15, 'English','2024/04/21','2024/04/28', 55000, N'Mô tả chi tiết phim Người dơi với siêu anh hùng', 'chua co')
+    ('MV0004', N'Batman VS Superman', 110, 15, 'English','2024/04/21','2024/04/28', N'Mô tả chi tiết phim Người dơi với siêu anh hùng', 'chua co')
 INSERT INTO Movie
-    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration,  Price, Description, Poster)
+    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0005', N'Thiên long bát bộ', 130, 15, 'Tailwand','2024/04/21','2024/04/28', 55000, N'Mô tả chi tiết phim Thiên long bát bộ', 'chua co')
+    ('MV0005', N'Thiên long bát bộ', 130, 15, 'Tailwand','2024/04/21','2024/04/28', N'Mô tả chi tiết phim Thiên long bát bộ', 'chua co')
 INSERT INTO Movie
-    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration,  Price, Description, Poster)
+    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0006', N'Blue Wolf', 85, 11, 'Korean','2024/04/21','2024/04/28', 45000, N'Mô tả chi tiết phim Sói xanh', 'chua co')
+    ('MV0006', N'Blue Wolf', 85, 11, 'Korean','2024/04/21','2024/04/28', N'Mô tả chi tiết phim Sói xanh', 'chua co')
 INSERT INTO Movie
-    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration,  Price, Description, Poster)
+    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0007', N'Toy Stories 4', 125, 15, 'English','2024/04/21','2024/04/28', 35000, N'Mô tả chi tiết phim Câu chuyện đồ chơi 4', 'chua co')
+    ('MV0007', N'Toy Stories 4', 125, 15, 'English','2024/04/21','2024/04/28', N'Mô tả chi tiết phim Câu chuyện đồ chơi 4', 'chua co')
 INSERT INTO Movie
-    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration,  Price, Description, Poster)
+    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0008', N'Doraemon & Dog Cat Empriror', 125, 15, 'Japanese','2024/04/21','2024/04/28', 40000, N'Mô tả chi tiết phim Doraemon ở Vương quốc chó mèo', 'chua co')
+    ('MV0008', N'Doraemon & Dog Cat Empriror', 125, 15, 'Japanese','2024/04/21','2024/04/28', N'Mô tả chi tiết phim Doraemon ở Vương quốc chó mèo', 'chua co')
 
 -- Test
 INSERT INTO Movie
-    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration,  Price, Description, Poster)
+    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0009', N'Date a live', 125, 15, 'Japanese','2024/04/28','2024/05/01', 40000, N'Mô tả chi tiết phim Date a live', 'chua co')
+    ('MV0009', N'Date a live', 125, 15, 'Japanese','2024/04/28','2024/05/01', N'Mô tả chi tiết phim Date a live', 'chua co')
 INSERT INTO Movie
-    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration,  Price, Description, Poster)
+    (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0010', N'Bí mật nơi góc tối', 125, 15, 'Chinese','2024/04/28','2024/05/15', 40000, N'Mô tả chi tiết phim Bí mật nơi góc tối', 'chua co')
+    ('MV0010', N'Bí mật nơi góc tối', 125, 15, 'Chinese','2024/04/28','2024/05/15', N'Mô tả chi tiết phim Bí mật nơi góc tối', 'chua co')
 
 
 INSERT INTO Movie_Category
