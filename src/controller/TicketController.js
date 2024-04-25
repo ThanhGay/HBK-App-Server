@@ -1,26 +1,53 @@
 const { json } = require("body-parser");
 const connection = require("../config/database");
+const sql = require('mssql')
+
 const e = require("express");
 
+
+
 const getDBTicket = {
-  
+
+    
     //Tao 1 ticket mới
     createInvoice : async(data) => {
+        
         try {
             const pool = await connection;
             const request = pool.request()
-            const query =
-            `Insert into Invoice
+
+            const query=
+            `Begin Transaction Booking
+            Insert into Invoice
             Values (GetDate(), 0, @PhoneNumber)
-            SELECT SCOPE_IDENTITY() AS NewInvoiceId;`
-            request.input('PhoneNumber', data.PhoneNumber)
+            DECLARE @Const Int
+            set @Const = @rollBack
+            IF @Const = 0
+            BEGIN
+                ROLLBACK TRANSACTION Booking;
+                PRINT 'rollBack thành công';
+            END
+            ELSE
+            BEGIN
+                COMMIT TRANSACTION Booking;
+                PRINT 'Commit thành công';
+            END;
+            SELECT SCOPE_IDENTITY() AS NewInvoiceId;
+            Select * from Invoice`
+            request.input('PhoneNumber', data.PhoneNumber)            
+            // request.input('rollBack',  action)
             const result = await request.query(query)
+
             return result.recordset
         } catch (error) {
             console.error(error);
             throw error;
         }
     },  
+
+    
+
+   
     //Thông tin danh sách ghế đã đặt theo lịch chiếu
     Seats : async(data) => {
         try {
@@ -66,6 +93,41 @@ const getDBTicket = {
             throw error
             
         }
+    },
+    // Chi tiết Hoá Đơn
+    DetailInvoice : async(data) => {
+        try {
+             const pool = await connection;
+        const request = pool.request();
+        const query =
+        `Select * from Invoice
+        Where Invoice_Id = @Invoice_Id`
+        request.input('Invoice_Id', data.Invoice_Id)
+        const result = await request.query(query);
+        return result.recordset
+
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+       
+    },
+
+    // vé của tôi (My ticket)
+    MyTicket : async () => {
+        try {
+        const pool = await connection;
+        const request = pool.request();
+        const query = 
+        `Select * 
+        From MyTicket`
+        const result = await request.query(query);
+        return result.recordset 
+        } catch (error) {
+            console.error(error);
+            throw error
+        }
+    
     }
 };
 
