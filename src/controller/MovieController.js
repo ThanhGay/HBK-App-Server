@@ -1,14 +1,12 @@
-const { json } = require("body-parser");
-const connection = require("../config/database");
-
+const { json } = require('body-parser');
+const connection = require('../config/database');
 
 const getDBMovie = {
-    NowPlaying: async () => {
-        try {
-            const pool = await connection;
-            const request = pool.request();
-            const query = 
-            `SELECT 
+  NowPlaying: async () => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+      const query = `SELECT 
             M.Movie_Id, 
             M.Movie_Name, 
             M.Poster, 
@@ -19,20 +17,19 @@ const getDBMovie = {
             M.Duration 
             FROM Movie AS M 
             WHERE GETDATE() BETWEEN M.Release AND M.Expiration;`;
-            const result = await request.query(query);
-            return result.recordset;
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    },
+      const result = await request.query(query);
+      return result.recordset;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
 
-    ComingSoon: async () => {
-        try {
-            const pool = await connection;
-            const request = pool.request();
-            const query = 
-            `SELECT 
+  ComingSoon: async () => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+      const query = `SELECT 
             M.Movie_Id, 
             M.Movie_Name, 
             M.Poster, 
@@ -43,38 +40,36 @@ const getDBMovie = {
             M.Release 
             FROM Movie AS M 
         WHERE GETDATE() < Release`;
-            const result = await request.query(query);
-            return result.recordset;
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    },
+      const result = await request.query(query);
+      return result.recordset;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
 
-    // xong
-    movieScheduleList: async (data) => {
-        try {
-            const pool = await connection;
-            const request = pool.request();
-            const query = `select a.* , b.StartTime 
+  // xong
+  movieScheduleList: async (data) => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+      const query = `select a.* , b.StartTime 
             from Movie as a INNER JOIN MovieShow as b 
             ON a.Movie_Id = b.Movie_Id
             Where a.Movie_Id = @Movie_Id and GETDATE() <= Convert(Date,b.StartTime)  `;
-            request.input('Movie_Id', data.Movie_Id)
-            const result = await request.query(query);
-            return result.recordset;
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    },
-    movieInfo : async (data) => {
-        try {
-            const pool = await connection;
-            const request = pool.request();
-            console.log(data);
-            const query = 
-            `SELECT 
+      request.input('Movie_Id', data.Movie_Id);
+      const result = await request.query(query);
+      return result.recordset;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+  movieInfo: async (data) => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+      const query = `SELECT 
             M.Movie_Id, 
             M.Movie_Name, 
             M.Poster, 
@@ -94,13 +89,11 @@ const getDBMovie = {
             inner join Person_Movie as PM on M.Movie_Id = PM.Movie_Id 
             inner join Person as P on PM.Person_Id = p.Person_Id
             WHERE M.Movie_Id = @Movie_Id `;
-            request.input('Movie_Id', data)
-            const result = await request.query(query);
-            return result.recordset;
-        } catch (error) {
-            
-        }
-    }
+      request.input('Movie_Id', data);
+      const result = await request.query(query);
+      return result.recordset;
+    } catch (error) {}
+  },
 };
 
 module.exports = getDBMovie;
