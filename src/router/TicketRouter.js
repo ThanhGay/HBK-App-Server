@@ -23,17 +23,6 @@ async(req, res) => {
 });
 
 
-// bấm quay lại ở màn selectseat
-routerTicket.post('/rollback-create-invoice', async(req,res) => {
-    try {
-        const dataroll = req.body
-        const data = await test(dataroll);
-        res.json(processDataInfo(data))
-    } catch (error) {
-        res.status(500).json(error)
-        
-    }
-})
 
 //  selectseat  "StartTime": "2024-04-16 07:00:00.000"
 
@@ -60,9 +49,9 @@ async(req,res) => {
 });
 
 // hiển thị chi tiết hoá đơn
-routerTicket.post('/detail-ticket', middlewareController.verifyToken ,async(req, res) => {
+routerTicket.get('/detail-ticket=:Invoice_Id', middlewareController.verifyToken ,async(req, res) => {
     try {
-        const postData = req.body;
+        const postData = req.params.Invoice_Id;
         const data = await getDBTicket.DetailInvoice(postData);
         res.json(processDataInfo(data));
     } catch (error) {
@@ -97,9 +86,26 @@ async (req, res) => {
     }
 })
 
-routerTicket.get('/my-tickets', middlewareController.verifyToken, async(req, res) => {
+// Lưu hoá đơn vào db
+routerTicket.post('/save-invoice', 
+middlewareController.verifyToken,
+async (req, res) => {
     try {
-        const data = await getDBTicket.MyTicket();
+        const postData = req.body;
+        const data = await getDBTicket.saveInvoice(postData);
+        res.json(data)
+    } catch (error) {   
+        res.status(500).json({error : error.message})
+    }
+}
+)
+
+routerTicket.get('/my-tickets', 
+middlewareController.verifyToken, 
+async(req, res) => {
+    try {
+        const PhoneNumber = {PhoneNumber : req.PhoneNumber};
+        const data = await getDBTicket.MyTicket(PhoneNumber);
         res.json(processDataInfo(data))
     } catch (error) {
         res.status(500).json(error)

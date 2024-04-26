@@ -98,17 +98,17 @@ const getDBTicket = {
             
         }
     },
-    // Chi tiết Hoá Đơn
+    // Chi tiết Hoá Đơn (check lại)
     DetailInvoice : async(data) => {
         try {
-             const pool = await connection;
-        const request = pool.request();
-        const query =
-        `Select * from Invoice
-        Where Invoice_Id = @Invoice_Id`
-        request.input('Invoice_Id', data.Invoice_Id)
-        const result = await request.query(query);
-        return result.recordset
+            const pool = await connection;
+            const request = pool.request();
+            const query =
+            `Select * from Invoice
+            Where Invoice_Id = @Invoice_Id`
+            request.input('Invoice_Id', data)
+            const result = await request.query(query);
+            return result.recordset
 
         } catch (error) {
             console.error(error);
@@ -155,12 +155,16 @@ const getDBTicket = {
     },
 
     // Lưu hoá đơn (chưa xong)
-    saveInvoice : async () => {
+    saveInvoice : async (data) => {
         try {
         const pool = await connection;
         const request = pool.request();
         const query = 
-        `Insert into MyTicket`
+        `Insert into MyTicket
+        Values (@Invoice_Id, @Movie_Name, @Duration, @CategoryList, @StartTime, @Room_Id, @Seat_Id, @Price, @PhoneNumber)`;
+        for(key in data){
+            request.input(key, data[key])
+        }
         const result = await request.query(query);
         return result.recordset 
         } catch (error) {
@@ -171,14 +175,16 @@ const getDBTicket = {
     },
 
     // vé của tôi (My ticket)
-    MyTicket : async () => {
+    MyTicket : async (data) => {
         try {
-        const pool = await connection;
-        const request = pool.request();
-        const query = 
-        `Select * 
-        From MyTicket`
-        const result = await request.query(query);
+            const pool = await connection;
+            const request = pool.request();
+            const query = 
+            `Select * 
+            From MyTicket
+            Where PhoneNumber = @PhoneNumber`
+            request.input('PhoneNumber', data.PhoneNumber)
+            const result = await request.query(query);
         return result.recordset 
         } catch (error) {
             console.error(error);

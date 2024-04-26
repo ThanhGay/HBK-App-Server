@@ -4,10 +4,11 @@
 ------------------------------------ Table ------------------------------------
 
 -- Select rows from a Table or Account' in schema '[dbo]'
+select * from MyTicket
 
 select * from invoice
 delete from invoice
-where Invoice_Id > 0
+where Invoice_Id > 2
 -- from Invoice 
 -- INNER Join Ticket on Invoice.Invoice_Id = Ticket.Invoice_Id 
 -- INNER JOIN MovieShow on Ticket.StartTime =  MovieShow.StartTime 
@@ -223,7 +224,6 @@ Create Table Ticket
 );
 
 -- Lưu thông tin vé
-
 Create TABLE MyTicket(
     Invoice_Id INT ,
     Movie_Name Nvarchar(200),
@@ -232,11 +232,13 @@ Create TABLE MyTicket(
     StartTime DateTime,
     Room_Id Varchar(3), 
     Seat_Id Varchar(3),
-    Price Money
+    Price Money, 
+    PhoneNumber Char(10),
     PRIMARY KEY (Invoice_Id)
 )
 
-
+insert into MyTicket(Invoice_Id, PhoneNumber)
+values (1, '1')
 ------------------------------------Trigger------------------------------------
 CREATE TRIGGER UpdatePriceInInvoice 
 ON Ticket

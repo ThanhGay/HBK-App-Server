@@ -37,6 +37,9 @@ routerMovie.post("/showtimes", async (req, res) => {
         res.json(processDataInfo(data));
     } catch (error) {}
 });
+
+
+
 routerMovie.get('/MovieId=:Id', async(req, res) => {
     try {
         const postData = req.params.Id
