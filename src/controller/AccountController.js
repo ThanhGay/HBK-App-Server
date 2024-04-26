@@ -1,8 +1,8 @@
-const { json } = require("body-parser");
+const { json } = require('body-parser');
 const moment = require('moment');
 
 // const now = moment(); // Lấy thời gian hiện tại
-const connection = require("../config/database");
+const connection = require('../config/database');
 
 // const { connect } = require("mssql");
 const getDBAccount = {
@@ -52,7 +52,7 @@ const getDBAccount = {
       }
       const result = await request.query(query);
 
-      return result.rowsAffected ;
+      return result.rowsAffected;
     } catch (error) {
       console.error(error);
       throw error;
@@ -64,7 +64,7 @@ const getDBAccount = {
       const request = pool.request();
       const query = `Delete from Account
       where PhoneNumber = @PhoneNumber`;
-      request.input("PhoneNumber", data.PhoneNumber);
+      request.input('PhoneNumber', data.PhoneNumber);
       const result = await request.query(query);
       result.rowsAffected > 0;
     } catch (error) {
@@ -115,7 +115,7 @@ const getDBAccount = {
       const query = `Select FullName, DateOfBirth, PhoneNumber, Email 
     From Account
     Where PhoneNumber = @PhoneNumber`;
-      request.input("PhoneNumber", data.PhoneNumber);
+      request.input('PhoneNumber', data.PhoneNumber);
       const result = await request.query(query);
       return result.recordset;
     } catch (error) {
@@ -159,7 +159,7 @@ const getDBAccount = {
       from Movie as a INNER JOIN MovieShow as b 
       ON a.Movie_Id = b.Movie_Id`;
       const result = await request.query(query);
-      return result.recordset
+      return result.recordset;
     } catch (error) {
       console.error(error);
       throw error;
