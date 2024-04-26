@@ -40,7 +40,7 @@ routerMovie.post("/showtimes", async (req, res) => {
 
 
 
-routerMovie.get('/MovieId=:Id', async(req, res) => {
+routerMovie.get('/:Id', async(req, res) => {
     try {
         const postData = req.params.Id
         const data = await getDBMovie.movieInfo(postData);
