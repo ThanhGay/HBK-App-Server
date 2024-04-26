@@ -20,4 +20,5 @@ const sqlConfig = {
 }
 console.log('Connect SQL: ', sql.connect(sqlConfig))
 
-module.exports = sql.connect(sqlConfig)
+module.exports = sql.connect(sqlConfig), sql
+// module.exports = { sql, sql.connect(sqlConfig) };

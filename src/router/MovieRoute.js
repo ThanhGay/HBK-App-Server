@@ -8,7 +8,7 @@ const middlewareController = require("../controller/middlewareController");
 const Token = require("../controller/TokenController");
 
 // danh sách phim đang chiếu
-routerMovie.get("/now-playing", async (req, res) => {
+routerMovie.get("/now-playing/", async (req, res) => {
     try {
         const data = await getDBMovie.NowPlaying();
         res.json(processDataInfo(data));
@@ -37,5 +37,15 @@ routerMovie.post("/showtimes", async (req, res) => {
         res.json(processDataInfo(data));
     } catch (error) {}
 });
+routerMovie.get('/MovieId=:Id', async(req, res) => {
+    try {
+        const postData = req.params.Id
+        const data = await getDBMovie.movieInfo(postData);
+        
+        res.json(processDataInfo(data))
+    } catch (error) {
+        res.json(error)
+    }
+})
 
 module.exports = routerMovie;

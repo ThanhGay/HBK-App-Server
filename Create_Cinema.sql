@@ -4,51 +4,10 @@
 ------------------------------------ Table ------------------------------------
 
 -- Select rows from a Table or Account' in schema '[dbo]'
-select * from Movie
--- delete from Invoice
--- where Invoice_Id > 2
--- select * from Invoice
--- delete from Ticket
---   select * from Ticket
---   select * from MovieShow
--- SELECT 
---     M.Movie_Id, 
---     M.Movie_Name, 
---     M.Poster, 
---     (SELECT STRING_AGG(C.Category_Name, ', ') 
---      FROM Movie_Category AS MC 
---      INNER JOIN Category AS C ON MC.Category_Id = C.Category_Id 
---      WHERE MC.Movie_Id = M.Movie_Id) AS Categories, 
---     M.Release 
--- FROM 
---     Movie AS M 
--- WHERE 
---      GETDATE() < Release
 
-
--- select GETDATE()
--- select Movie_Id, Movie_name from Movie
---       where GETDATE() < Release
---       from Movie inner join Movie_Category 
--- on Movie.Movie_Id = Movie_Category.Movie_Id INNER JOIN Category ON Movie_Category.Category_Id = Category.Category_Id
---       where GETDATE() BETWEEN  Release and Expiration
-
-
---       SELECT 
---     M.Movie_Id, 
---     M.Movie_Name, 
---     M.Poster, 
---     (SELECT STRING_AGG(C.Category_Name, ', ') 
---      FROM Movie_Category AS MC 
---      INNER JOIN Category AS C ON MC.Category_Id = C.Category_Id 
---      WHERE MC.Movie_Id = M.Movie_Id) AS Categories, 
---     M.Duration 
--- FROM 
---     Movie AS M 
--- WHERE 
---     M.Movie_Id = 'MV005' 
---     AND GETDATE() BETWEEN M.Release AND M.Expiration;
--- select * from Account
+select * from invoice
+delete from invoice
+where Invoice_Id > 0
 -- from Invoice 
 -- INNER Join Ticket on Invoice.Invoice_Id = Ticket.Invoice_Id 
 -- INNER JOIN MovieShow on Ticket.StartTime =  MovieShow.StartTime 
@@ -78,7 +37,7 @@ select * from Movie
 
 
 
--- select * from Invoice
+
 
 -------------------------------------------------
 
@@ -262,14 +221,8 @@ Create Table Ticket
     FOREIGN KEY (Seat_Id, Room_Id) REFERENCES Seat(Seat_Id, Room_Id),
 
 );
--- select a.Movie_Id, Movie_Name, Duration, STRING_AGG(c.Category_Name, ', ' ) as CategoryList
--- from movie as a INNER JOIN Movie_Category as b ON a.Movie_Id = b.Movie_Id 
--- INNER JOIN Category as c ON b.Category_Id =c.Category_Id
--- group BY a.Movie_Id, Movie_Name, Duration
--- select Invoice_Id, a.StartTime, a.Room_Id,  STRING_AGG(Seat_Id, ', '), sum(cost) as TotalCost 
--- from Ticket as a INNER JOIN MovieShow as b ON a.StartTime = b.StartTime
--- GROUP BY Invoice_Id, a.StartTime, a.Room_Id 
 
+-- Lưu thông tin vé
 
 Create TABLE MyTicket(
     Invoice_Id INT ,
@@ -280,10 +233,11 @@ Create TABLE MyTicket(
     Room_Id Varchar(3), 
     Seat_Id Varchar(3),
     Price Money
-
+    PRIMARY KEY (Invoice_Id)
 )
 
---------------------------------Trigger--------------------------------
+
+------------------------------------Trigger------------------------------------
 CREATE TRIGGER UpdatePriceInInvoice 
 ON Ticket
 FOR INSERT 
@@ -519,21 +473,6 @@ INSERT INTO Movie_Category
 VALUES
     ('MV0008', 'ACT001')
 
-INSERT INTO Movie_Category
-    (Movie_Id, Category_Id)
-VALUES
-    ('MV0009', 'Type11'),
-    ('MV0009', 'Type03'),
-    ('MV0009', 'Type04')    
-  
-    
-INSERT INTO Movie_Category
-    (Movie_Id, Category_Id)
-VALUES
-    ('MV0010', 'Type11'),
-    ('MV0010', 'Type03')    
-        
-
 
 
 INSERT INTO Person
@@ -740,7 +679,7 @@ INSERT INTO Account
 VALUES
     ('0373543125', 'dsdlviasdl@', 'xxxxxx@gmail.com', N'Nữ', N'Đức Trính', '2003/04/25', 150, 'Bronze')
 
-select * from Seat
+
 -- Data in Room 1
 INSERT INTO Seat
     (Seat_Id, row, col, Room_Id)
@@ -883,7 +822,7 @@ VALUES
 
 
 
-INSERT INTO Invoice
+INSERT INTO Invoice 
     (InvoiceDate, PhoneNumber)
 VALUES
     ('2024/04/16', '0372273819')
@@ -961,3 +900,6 @@ VALUES
 --    (Ticket_Id, StartTime)
 --VALUES
 --    ('000012', 'HD001', '2024/04/16 10:00' )
+
+            SELECT top 1 SCOPE_IDENTITY()AS NewInvoiceId
+            from Invoice
