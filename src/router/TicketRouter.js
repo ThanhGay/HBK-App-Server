@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const routerTicket = express.Router();
 const processDataInfo = require('../processData/processDataInfo')
+const {processTrue, processFalse} = require('../processData/processDataInfo') 
+
 const getDBTicket = require("../controller/TicketController");
 const rollbackOrCommit =  require("../controller/TicketController");
 const middlewareController = require("../controller/middlewareController");
@@ -53,7 +55,7 @@ routerTicket.get('/detail-ticket=:Invoice_Id', middlewareController.verifyToken 
     try {
         const postData = req.params.Invoice_Id;
         const data = await getDBTicket.DetailInvoice(postData);
-        res.json(processDataInfo(data));
+        res.json(processTrue(data));
     } catch (error) {
         res.status(500).json(error)
     }

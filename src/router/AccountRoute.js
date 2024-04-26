@@ -5,7 +5,7 @@ const routerAccount = express.Router();
 const getDBAccount = require("../controller/AccountController");
 const middlewareController = require("../controller/middlewareController");
 const Token = require("../controller/TokenController");
-const processDataInfo = require("../processData/processDataInfo");
+const {processTrue, processFalse} = require("../processData/processDataInfo");
 
 // đăng nhập
 routerAccount.post("/sign-in", async (req, res) => {
@@ -87,18 +87,27 @@ routerAccount.put(
             putAccount.PhoneNumber = req.PhoneNumber;
             console.log(putAccount);
             const data = await getDBAccount.putData(putAccount);
-            console.log(data);
-            res.json(processDataInfo(data));
+            if (!!data.length || (putAccount.Password === putAccount.NewPassword)){
+                res.json(processFalse(data))
+            }
+            else{
+                res.json(processTrue(data))
+            }
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json(processFalse(error.message));
         }
     }
 );
 
 // đăng xuất tài khoản
 routerAccount.post("/sign-out", (req, res) => {
-    res.clearCookie("refreshToken");
-    res.json({ message: "Sign out successful" });
+    try {
+        res.clearCookie("refreshToken");
+        res.json(processTrue());
+    } catch (error) {
+        res.status(500).json(processFalse())
+    }
+    
 });
 
 // xoá tài khoản
@@ -110,8 +119,12 @@ routerAccount.delete("/deleteData", async (req, res) => {
         const phoneNumber = decodedToken.PhoneNumber;
         const dataToken = { PhoneNumber: phoneNumber };
         const data = await getDBAccount.deleteData(dataToken);
-        const msg = !!data ? "Success" : "Failure";
-        res.json(processDataInfo(data));
+        if(data){
+            res.json(processTrue(data))
+        }else{
+            res.json(processFalse(data))
+
+        }
     } catch (error) {
         console.error("Error decoding token:", error);
         res.status(500).json({ error: "Error decoding token" });
@@ -124,12 +137,12 @@ routerAccount.put("/forgot-password", async (req, res) => {
         const putAccount = req.body;
         if (putAccount.Password == putAccount.ConfirmPassword) {
             const data = await getDBAccount.forgotPassword(putAccount);
-            res.json(processDataInfo(data));
+            res.json(processTrue(data));
         } else {
-            res.json("Password does not match confirm");
+            res.json(processFalse(data));
         }
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json(processFalse(error.message));
     }
 });
 
@@ -142,12 +155,13 @@ routerAccount.put(
             const putAccount = req.body;
             putAccount.PhoneNumber = req.PhoneNumber;
             const data = await getDBAccount.EditProfile(putAccount);
-            res.json(processDataInfo(data));
+            res.json(processTrue(data));
         } catch (error) {
             if (error.message.includes("Violation of PRIMARY KEY")) {
                 // Xử lý lỗi trùng khóa chính
                 res.status(400).json({
                     status: false,
+                    data : null,
                     msg: "Cannot edit information: Duplicate phone number.",
                 });
             } else if (
@@ -158,13 +172,13 @@ routerAccount.put(
                 // Xử lý lỗi không định dạng được ngày tháng
                 res.status(400).json({
                     status: false,
+                    data : null,
                     msg: "Invalid date format error: Please enter a valid date.",
                 });
             } else {
-                // Xử lý các lỗi khác
-                console.error(error);
                 res.status(500).json({
                     status: false,
+                    data : null,
                     msg: "Internal server error.",
                 });
             }
@@ -180,10 +194,9 @@ routerAccount.post(
         try {
             const getAccount = {};
             getAccount.PhoneNumber = req.PhoneNumber;
-            console.log(getAccount);
 
             const data = await getDBAccount.Profile(getAccount);
-            res.json(data);
+            res.json(processTrue(data));
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

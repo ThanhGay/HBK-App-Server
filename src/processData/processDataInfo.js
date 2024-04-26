@@ -1,16 +1,12 @@
-const processDataInfo = (data) => {
-    const status = !!data.length;
-    const msg = status ? "Success" : "Failure";
-    return {status: status,
+const processTrue = (data) => {
+    return {status: true,
         data: data,
-        msg: msg}
+        msg: 'Success'}
 }
 
-const processDataInforowsAffected = (data) => {
-    const status = data > 0;
-    const msg = status ? "Success" : "Failure";
-    return {status: status,
+const processFalse = (data) => {
+    return {status: false,
         data: data,
-        msg: msg}
+        msg: 'Failure'}
 }
-module.exports = processDataInfo, processDataInforowsAffected;
+module.exports = { processTrue, processFalse };
