@@ -70,6 +70,33 @@ routerTicket.post('/detail-ticket', middlewareController.verifyToken ,async(req,
     }
    
 })
+
+// Xoá vé theo mã hoá đơn (Lúc back chọn lại ghế sẽ xoá mã hoá đơn Id này là Invoice_Id)
+routerTicket.get('/delete-ticket=:Invoice_Id', 
+middlewareController.verifyToken, 
+async (req, res) => {
+    try {
+        const getData = req.params.Invoice_Id;
+        const data = await getDBTicket.delTicket(getData);
+        res.json(processDataInfo(data));
+    } catch (error) {
+        res.status(500).json({error : error.message});
+    }
+})
+
+// Xoá hoá đơn theo mã hoá đơn
+routerTicket.get('/delete-invoice=:Invoice_Id', 
+middlewareController.verifyToken, 
+async (req, res) => {
+    try {
+        const getData = req.params.Invoice_Id;
+        const data = await getDBTicket.delInvoice(getData);
+        res.json(processDataInfo(data));
+    } catch (error) {
+        res.status(500).json({error : error.message});
+    }
+})
+
 routerTicket.get('/my-tickets', middlewareController.verifyToken, async(req, res) => {
     try {
         const data = await getDBTicket.MyTicket();
