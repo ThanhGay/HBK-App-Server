@@ -66,7 +66,7 @@ const getDBAccount = {
       where PhoneNumber = @PhoneNumber`;
       request.input('PhoneNumber', data.PhoneNumber);
       const result = await request.query(query);
-      result.rowsAffected > 0;
+      return result.rowsAffected > 0;
     } catch (error) {
       console.error(error);
       throw error;

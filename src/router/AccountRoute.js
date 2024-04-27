@@ -109,24 +109,24 @@ routerAccount.post('/sign-out', (req, res) => {
 });
 
 // xoá tài khoản
-routerAccount.delete('/deleteData', async (req, res) => {
-  const token = req.body.token; // Giả sử token được gửi dưới dạng thuộc tính 'token' trong body
-
-  try {
-    const decodedToken = jwt.verify(token, process.env.JWT_ACCESS_KEY);
-    const phoneNumber = decodedToken.PhoneNumber;
-    const dataToken = { PhoneNumber: phoneNumber };
-    const data = await getDBAccount.deleteData(dataToken);
-    if (data) {
-      res.json(processTrue(data));
-    } else {
-      res.json(processFalse(data));
+routerAccount.delete(
+  '/delete-account',
+  middlewareController.verifyToken,
+  async (req, res) => {
+    try {
+      const delData = { PhoneNumber: req.PhoneNumber };
+      const data = await getDBAccount.deleteData(delData);
+      if (data) {
+        res.json(processTrue(data));
+      } else {
+        res.json(processFalse(data));
+      }
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      res.status(500).json({ error: 'Error decoding token' });
     }
-  } catch (error) {
-    console.error('Error decoding token:', error);
-    res.status(500).json({ error: 'Error decoding token' });
-  }
-});
+  },
+);
 
 // đặt lại mật khẩu
 routerAccount.put('/forgot-password', async (req, res) => {
