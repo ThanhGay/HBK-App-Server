@@ -155,7 +155,6 @@ routerAccount.put(
       res.json(processTrue(data));
     } catch (error) {
       if (error.message.includes('Violation of PRIMARY KEY')) {
-        // Xử lý lỗi trùng khóa chính
         res.status(400).json({
           status: false,
           data: null,
@@ -189,13 +188,12 @@ routerAccount.post(
   middlewareController.verifyToken,
   async (req, res) => {
     try {
-      const getAccount = {};
-      getAccount.PhoneNumber = req.PhoneNumber;
+      const getAccount = { PhoneNumber: req.PhoneNumber };
 
       const data = await getDBAccount.Profile(getAccount);
       res.json(processTrue(data));
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json(processFalse(error.message));
     }
   },
 );

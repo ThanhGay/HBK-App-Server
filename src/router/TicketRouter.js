@@ -2,9 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const routerTicket = express.Router();
-const processDataInfo = require('../processData/processDataInfo');
 const { processTrue, processFalse } = require('../processData/processDataInfo');
-
 const getDBTicket = require('../controller/TicketController');
 const rollbackOrCommit = require('../controller/TicketController');
 const middlewareController = require('../controller/middlewareController');
@@ -18,19 +16,22 @@ routerTicket.post(
     try {
       const postdata = { PhoneNumber: req.PhoneNumber };
       const data = await getDBTicket.createInvoice(postdata);
-      res.json(data);
+      res.json(processTrue(data));
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json(processFalse(error.message));
     }
   },
 );
 
 //  selectseat  "StartTime": "2024-04-16 07:00:00.000"
-
 routerTicket.post('/seats', async (req, res) => {
-  const postData = req.body;
-  const data = await getDBTicket.Seats(postData);
-  res.json(processDataInfo(data));
+  try {
+    const postData = req.body;
+    const data = await getDBTicket.Seats(postData);
+    res.json(processTrue(data));
+  } catch (error) {
+    res.status(500).json(processFalse(error.message));
+  }
 });
 
 // truyền token bấm confirm
@@ -41,9 +42,9 @@ routerTicket.post(
     try {
       const postData = req.body;
       const data = await getDBTicket.bookTickets(postData);
-      res.json(data);
+      res.json(processTrue(data));
     } catch (error) {
-      res.json({ error: error.message });
+      res.status(500).json(processFalse(error.message));
     }
   },
 );
@@ -58,7 +59,7 @@ routerTicket.get(
       const data = await getDBTicket.DetailInvoice(postData);
       res.json(processTrue(data));
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json(processFalse(error.message));
     }
   },
 );
@@ -71,9 +72,9 @@ routerTicket.get(
     try {
       const getData = req.params.Invoice_Id;
       const data = await getDBTicket.delTicket(getData);
-      res.json(processDataInfo(data));
+      res.json(processTrue(data));
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json(processFalse(error.message));
     }
   },
 );
@@ -86,9 +87,9 @@ routerTicket.get(
     try {
       const getData = req.params.Invoice_Id;
       const data = await getDBTicket.delInvoice(getData);
-      res.json(processDataInfo(data));
+      res.json(processTrue(data));
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json(processFalse(error.message));
     }
   },
 );
@@ -102,9 +103,9 @@ routerTicket.post(
       const postData = req.body;
       postData.PhoneNumber = req.PhoneNumber;
       const data = await getDBTicket.saveInvoice(postData);
-      res.json(data);
+      res.json(processTrue(data));
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json(processFalse(error.message));
     }
   },
 );
@@ -116,9 +117,9 @@ routerTicket.get(
     try {
       const PhoneNumber = { PhoneNumber: req.PhoneNumber };
       const data = await getDBTicket.MyTicket(PhoneNumber);
-      res.json(processDataInfo(data));
+      res.json(processTrue(data));
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json(processFalse(error.message));
     }
   },
 );

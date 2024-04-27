@@ -4,7 +4,6 @@ require('dotenv').config();
 const routerMovie = express.Router();
 const getDBMovie = require('../controller/MovieController');
 const { processTrue, processFalse } = require('../processData/processDataInfo');
-
 const middlewareController = require('../controller/middlewareController');
 const Token = require('../controller/TokenController');
 
@@ -12,9 +11,9 @@ const Token = require('../controller/TokenController');
 routerMovie.get('/now-playing/', async (req, res) => {
   try {
     const data = await getDBMovie.NowPlaying();
-    res.json(processData(data));
+    res.json(processTrue(data));
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json(processFalse(error.message));
   }
 });
 
@@ -22,9 +21,9 @@ routerMovie.get('/now-playing/', async (req, res) => {
 routerMovie.get('/coming-soon', async (req, res) => {
   try {
     const data = await getDBMovie.ComingSoon();
-    res.json(processData(data));
+    res.json(processTrue(data));
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json(processFalse(error.message));
   }
 });
 
@@ -33,8 +32,10 @@ routerMovie.post('/showtimes', async (req, res) => {
   try {
     const postData = req.body;
     const data = await getDBMovie.movieScheduleList(postData);
-    res.json(processData(data));
-  } catch (error) {}
+    res.json(processTrue(data));
+  } catch (error) {
+    res.status(500).json(processFalse(error.message));
+  }
 });
 
 // thông tin chi tiết phim
@@ -43,9 +44,9 @@ routerMovie.get('/:Id', async (req, res) => {
     const postData = req.params.Id;
     const data = await getDBMovie.movieInfo(postData);
 
-    res.json(processData(data));
+    res.json(processTrue(data));
   } catch (error) {
-    res.json(error);
+    res.json(processFalse(error.message));
   }
 });
 

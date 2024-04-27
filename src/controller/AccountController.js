@@ -91,12 +91,13 @@ const getDBAccount = {
   },
   EditProfile: async (data) => {
     try {
-      // tên sinh nhật, sđt, mail
       const pool = await connection;
       const request = pool.request();
       const query = `Update Account
-      Set FullName = @FullName, DateOfBirth = @DateOfBirth, 
-      PhoneNumber = @NewPhoneNumber, Email = @Email
+      Set FullName = @FullName, 
+      DateOfBirth = @DateOfBirth, 
+      PhoneNumber = @NewPhoneNumber, 
+      Email = @Email
       Where PhoneNumber = @PhoneNumber`;
       for (key in data) {
         request.input(key, data[key]);
