@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const routerTicket = express.Router();
+const sql = require('mssql');
 const { processTrue, processFalse } = require('../processData/processDataInfo');
 const getDBTicket = require('../controller/TicketController');
 const rollbackOrCommit = require('../controller/TicketController');
@@ -124,5 +125,109 @@ routerTicket.get(
     }
   },
 );
+
+// Test transaction
+const config = {
+  user: process.env.USER_NAME,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
+  server: 'localhost',
+  pool: {
+    max: 10,
+    min: 0,
+    idleTimeoutMillis: 30000,
+  },
+  options: {
+    encrypt: true,
+    trustServerCertificate: true,
+  },
+};
+const session = require('express-session');
+
+const app = express();
+app.use(
+  session({
+    secret: 'trans123',
+    resave: false,
+    saveUninitialized: true,
+  }),
+);
+let activeTransaction = null;
+
+routerTicket.post('/a', middlewareController.verifyToken, async (req, res) => {
+  try {
+    // Connect to the SQL database
+
+    // Extract phone number from request
+    const data = { PhoneNumber: req.PhoneNumber };
+
+    // Begin transaction
+    const transaction = new sql.Transaction();
+    await transaction.begin();
+    const request = transaction.request();
+    // Create request object from transaction
+
+    // SQL query to insert data into Invoice table
+    const query = `
+        INSERT INTO Invoice 
+        VALUES (GETDATE(), 0, @PhoneNumber);
+        SELECT SCOPE_IDENTITY() AS NewInvoiceId`;
+
+    // Declare input parameter for PhoneNumber
+    request.input('PhoneNumber', data.PhoneNumber);
+
+    // Execute the query
+    const result = await request.query(query);
+
+    activeTransaction = transaction;
+    // console.log(transaction.id);
+
+    // // Store the transaction in the session for later use
+    // // const serializedTransaction = JSON.stringify(req.cookies.trans); // Serialize the transaction object
+
+    // console.log(result.recordset);
+    // res.cookie('transaction', transaction, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   path: '/',
+    //   sameSite: 'strict',
+    // });
+    // Send success response
+    res.status(200).json(result.recordset);
+  } catch (error) {
+    // Handle errors
+    console.error('Error occurred:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Màn hình thứ hai: Xử lý commit hoặc rollback khi nhấn nút "continue" hoặc "back"
+routerTicket.post('/b', async (req, res) => {
+  try {
+    const decision = req.body;
+
+    console.log(activeTransaction);
+
+    if (!activeTransaction) {
+      res.status(400).send('Transaction not found.');
+      return;
+    }
+    console.log(decision.decision);
+    if (decision.decision === 1) {
+      await activeTransaction.commit();
+      res.status(200).send('Transaction committed successfully.');
+    } else if (decision.decision === 0) {
+      await activeTransaction.rollback();
+
+      res.status(200).send('Transaction rolled back successfully.');
+    } else {
+      res.status(400).send('Invalid decision.');
+    }
+    activeTransaction = null;
+  } catch (error) {
+    console.error('Error occurred:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 module.exports = routerTicket;

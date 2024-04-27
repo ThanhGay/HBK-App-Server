@@ -231,14 +231,16 @@ Create TABLE MyTicket(
     CategoryList Nvarchar(500),
     StartTime DateTime,
     Room_Id Varchar(3), 
-    Seat_Id Varchar(3),
+    Seat_Id Varchar(100),
     Price Money, 
     PhoneNumber Char(10),
     PRIMARY KEY (Invoice_Id)
 )
 
+drop Table MyTicket
+select * from MyTicket
 insert into MyTicket(Invoice_Id, PhoneNumber)
-values (1, '1')
+values (2, '1')
 ------------------------------------Trigger------------------------------------
 CREATE TRIGGER UpdatePriceInInvoice 
 ON Ticket

@@ -5,4 +5,9 @@ const processTrue = (data) => {
 const processFalse = (data) => {
   return { status: false, data: data, msg: 'Failure' };
 };
-module.exports = { processTrue, processFalse };
+
+const processDate = (data) => {
+  const status = !!data.length;
+  const msg = status ? 'Success' : 'Failure';
+};
+module.exports = { processTrue, processFalse, processDate };

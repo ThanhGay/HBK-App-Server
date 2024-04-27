@@ -58,24 +58,6 @@ SELECT
             inner join Person as P on PM.Person_Id = p.Person_Id
             WHERE M.Movie_Id = 'MV0001' 
 
+            Select * from Invoice
 
-
-
-    status": true,
-    "data": [
-        {
-            "Movie_Id": "MV0001",
-            "Movie_Name": "Đào, Phở và Piano",
-            "Poster": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRc7TGWYAV3m63jS5t78TFJ-k6zvYEuELmmlgtX_pXHT3_hyi-x",
-            "Categories": "Crime, History",
-            "Duration": 100,
-            "Language": "Vietnamese",
-            "Censorship": 15,
-            "Release": "2024-04-21T00:00:00.000Z",
-            person : {
-            }
-            "image": null
-
-
-
-            
+            SELECT * from Account
