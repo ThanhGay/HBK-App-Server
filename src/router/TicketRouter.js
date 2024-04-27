@@ -126,31 +126,6 @@ routerTicket.get(
 );
 
 // Test transaction
-const config = {
-  user: process.env.USER_NAME,
-  password: process.env.PASSWORD,
-  database: process.env.DATABASE,
-  server: 'localhost',
-  pool: {
-    max: 10,
-    min: 0,
-    idleTimeoutMillis: 30000,
-  },
-  options: {
-    encrypt: true,
-    trustServerCertificate: true,
-  },
-};
-const session = require('express-session');
-
-const app = express();
-app.use(
-  session({
-    secret: 'trans123',
-    resave: false,
-    saveUninitialized: true,
-  }),
-);
 let activeTransaction = null;
 
 routerTicket.post('/a', middlewareController.verifyToken, async (req, res) => {
@@ -170,7 +145,23 @@ routerTicket.post('/a', middlewareController.verifyToken, async (req, res) => {
     const query = `
         INSERT INTO Invoice 
         VALUES (GETDATE(), 0, @PhoneNumber);
-        SELECT SCOPE_IDENTITY() AS NewInvoiceId`;
+        SELECT SCOPE_IDENTITY() AS NewInvoiceId;
+        declare @newInvoiceId int;
+        set @newInvoiceId = (SELECT SCOPE_IDENTITY() as scope);
+        
+        INSERT INTO Ticket
+        VALUES (50000,	@newInvoiceId,	"2024-04-30 17:00:00.000",	"D02",	"R01");
+
+       
+        `;
+
+    const queryGPT = `INSERT INTO Invoice 
+        OUTPUT INSERTED.Invoice_Id
+        VALUES (GETDATE(), 0, @PhoneNumber);
+
+        INSERT INTO Ticket
+        VALUES (50000, SCOPE_IDENTITY(), '2024-04-30 17:00:00.000', 'D02', 'R01');
+        `;
 
     // Declare input parameter for PhoneNumber
     request.input('PhoneNumber', data.PhoneNumber);

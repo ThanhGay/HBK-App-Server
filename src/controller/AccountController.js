@@ -52,7 +52,7 @@ const getDBAccount = {
       }
       const result = await request.query(query);
 
-      return result.rowsAffected;
+      return result.rowsAffected > 0;
     } catch (error) {
       console.error(error);
       throw error;

@@ -87,7 +87,7 @@ routerAccount.put(
       putAccount.PhoneNumber = req.PhoneNumber;
       console.log(putAccount);
       const data = await getDBAccount.putData(putAccount);
-      if (!!data.length || putAccount.Password === putAccount.NewPassword) {
+      if (!data || putAccount.Password === putAccount.NewPassword) {
         res.json(processFalse(data));
       } else {
         res.json(processTrue(data));
