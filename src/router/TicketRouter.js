@@ -125,76 +125,66 @@ routerTicket.get(
   },
 );
 
-// Test transaction
+// Transaction
 let activeTransaction = null;
 
-routerTicket.post('/a', middlewareController.verifyToken, async (req, res) => {
-  try {
-    // Connect to the SQL database
+routerTicket.post(
+  '/transaction-invoice',
+  middlewareController.verifyToken,
+  async (req, res) => {
+    try {
+      const data = req.body;
+      data.PhoneNumber = req.PhoneNumber;
 
-    // Extract phone number from request
-    const data = { PhoneNumber: req.PhoneNumber };
-
-    // Begin transaction
-    const transaction = new sql.Transaction();
-    await transaction.begin();
-    const request = transaction.request();
-    // Create request object from transaction
-
-    // SQL query to insert data into Invoice table
-    const query = `
+      // Begin transaction
+      const transaction = new sql.Transaction();
+      await transaction.begin();
+      const request = transaction.request();
+      const query = `
         INSERT INTO Invoice 
         VALUES (GETDATE(), 0, @PhoneNumber);
         SELECT SCOPE_IDENTITY() AS NewInvoiceId;
-        declare @newInvoiceId int;
-        set @newInvoiceId = (SELECT SCOPE_IDENTITY() as scope);
-        
-        INSERT INTO Ticket
-        VALUES (50000,	@newInvoiceId,	"2024-04-30 17:00:00.000",	"D02",	"R01");
-
-       
+     
         `;
+      request.input('PhoneNumber', data.PhoneNumber);
 
-    const queryGPT = `INSERT INTO Invoice 
-        OUTPUT INSERTED.Invoice_Id
-        VALUES (GETDATE(), 0, @PhoneNumber);
+      // Execute the query
+      const result1 = await request.query(query);
+      const Scope = result1.recordset[0].NewInvoiceId;
+      console.log(Scope);
 
-        INSERT INTO Ticket
-        VALUES (50000, SCOPE_IDENTITY(), '2024-04-30 17:00:00.000', 'D02', 'R01');
-        `;
+      const query2 = [];
+      for (index in data.Seat_Id) {
+        query2.push(
+          `INSERT INTO Ticket 
+          VALUES (50000, ${Scope}, '${data.StartTime}', '${data.Seat_Id[index]}', '${data.Room_Id}');`,
+        );
+      }
+      console.log(query2);
 
-    // Declare input parameter for PhoneNumber
-    request.input('PhoneNumber', data.PhoneNumber);
+      for (q in query2) {
+        console.log(query2[q]);
 
-    // Execute the query
-    const result = await request.query(query);
+        const result = await request.query(query2[q]);
+      }
+      const query3 = `Select * 
+    From Invoice
+    Where Invoice_Id = ${Scope}`;
+      const result3 = await request.query(query3);
 
-    activeTransaction = transaction;
-    // console.log(transaction.id);
+      activeTransaction = transaction;
+      res.status(200).json(result3.recordset);
+    } catch (error) {
+      // Handle errors
+      console.error('Error occurred:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  },
+);
 
-    // // Store the transaction in the session for later use
-    // // const serializedTransaction = JSON.stringify(req.cookies.trans); // Serialize the transaction object
-
-    // console.log(result.recordset);
-    // res.cookie('transaction', transaction, {
-    //   httpOnly: true,
-    //   secure: true,
-    //   path: '/',
-    //   sameSite: 'strict',
-    // });
-    // Send success response
-    res.status(200).json(result.recordset);
-  } catch (error) {
-    // Handle errors
-    console.error('Error occurred:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-// Màn hình thứ hai: Xử lý commit hoặc rollback khi nhấn nút "continue" hoặc "back"
-routerTicket.post('/b', async (req, res) => {
+routerTicket.post('/active-transaction', async (req, res) => {
   try {
-    const decision = req.body;
+    const decision = req.body.decision;
 
     console.log(activeTransaction);
 
@@ -202,11 +192,10 @@ routerTicket.post('/b', async (req, res) => {
       res.status(400).send('Transaction not found.');
       return;
     }
-    console.log(decision.decision);
-    if (decision.decision === 1) {
+    if (decision === 1) {
       await activeTransaction.commit();
       res.status(200).send('Transaction committed successfully.');
-    } else if (decision.decision === 0) {
+    } else if (decision === 0) {
       await activeTransaction.rollback();
 
       res.status(200).send('Transaction rolled back successfully.');
