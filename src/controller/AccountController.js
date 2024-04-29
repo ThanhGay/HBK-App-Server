@@ -93,7 +93,10 @@ const getDBAccount = {
     try {
       const pool = await connection;
       const request = pool.request();
-      const query = `Update Account
+      const query = `Update Invoice
+      Set PhoneNumber = @NewPhoneNumber
+      Where PhoneNumber = @PhoneNumber;
+      Update Account
       Set FullName = @FullName, 
       DateOfBirth = @DateOfBirth, 
       PhoneNumber = @NewPhoneNumber, 

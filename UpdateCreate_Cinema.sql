@@ -3,84 +3,6 @@
 -- drop DATABASE UpdateCrossPlatformProject
 ------------------------------------ Table ------------------------------------
 
--- Select rows from a Table or Account' in schema '[dbo]'
-select * from Movie
--- delete from Invoice
--- where Invoice_Id > 2
--- select * from Invoice
--- delete from Ticket
---   select * from Ticket
---   select * from MovieShow
--- SELECT 
---     M.Movie_Id, 
---     M.Movie_Name, 
---     M.Poster, 
---     (SELECT STRING_AGG(C.Category_Name, ', ') 
---      FROM Movie_Category AS MC 
---      INNER JOIN Category AS C ON MC.Category_Id = C.Category_Id 
---      WHERE MC.Movie_Id = M.Movie_Id) AS Categories, 
---     M.Release 
--- FROM 
---     Movie AS M 
--- WHERE 
---      GETDATE() < Release
-
-
--- select GETDATE()
--- select Movie_Id, Movie_name from Movie
---       where GETDATE() < Release
---       from Movie inner join Movie_Category 
--- on Movie.Movie_Id = Movie_Category.Movie_Id INNER JOIN Category ON Movie_Category.Category_Id = Category.Category_Id
---       where GETDATE() BETWEEN  Release and Expiration
-
-
---       SELECT 
---     M.Movie_Id, 
---     M.Movie_Name, 
---     M.Poster, 
---     (SELECT STRING_AGG(C.Category_Name, ', ') 
---      FROM Movie_Category AS MC 
---      INNER JOIN Category AS C ON MC.Category_Id = C.Category_Id 
---      WHERE MC.Movie_Id = M.Movie_Id) AS Categories, 
---     M.Duration 
--- FROM 
---     Movie AS M 
--- WHERE 
---     M.Movie_Id = 'MV005' 
---     AND GETDATE() BETWEEN M.Release AND M.Expiration;
--- select * from Account
--- from Invoice 
--- INNER Join Ticket on Invoice.Invoice_Id = Ticket.Invoice_Id 
--- INNER JOIN MovieShow on Ticket.StartTime =  MovieShow.StartTime 
--- INNER JOIN Movie ON MovieShow.Movie_Id = Movie.Movie_Id
--- INNER JOIN Ticket_Seat ON Ticket.Ticket_Id = Ticket_Seat.Ticket_Id
--- where Invoice.PhoneNumber = 0372273819
-
--- select * from  MovieShow
-
--- danh sách lịch chiếu theo phim
--- select a.* , CONVERT(date,StartTime) as ShowDate, CONVERT(Time, StartTime) as ShowTime from   Movie as a INNER JOIN MovieShow as b ON a.Movie_Id = b.Movie_Id
--- select * from movieShow
--- select date('2024-04-16 07:00:00.000')
-
--- select * from Ticket_Seat 
-
--- select * from Invoice as a INNER JOIN (select count(Invoice_Id) * 50 as money from ticket group by (Invoice_Id) ) as b On a.Invoice_Id = b.invoice_Id
--- select a.* , 
---       CONVERT(date,StartTime) as ShowDate, 
---       CONVERT(Time, StartTime) as ShowTime 
---       from Movie as a INNER JOIN MovieShow as b 
---       ON a.Movie_Id = b.Movie_Id
--- select * from MovieShow INNER JOIN Ticket_Seat
--- today + 3 < ngày khởi chiếu, lịch kết thúc 
--- ngày hiện tại < 
--- startTime , 
-
-
-
--- select * from Invoice
-
--------------------------------------------------
 
 CREATE TABLE Category
 (
@@ -262,13 +184,6 @@ Create Table Ticket
     FOREIGN KEY (Seat_Id, Room_Id) REFERENCES Seat(Seat_Id, Room_Id),
 
 );
--- select a.Movie_Id, Movie_Name, Duration, STRING_AGG(c.Category_Name, ', ' ) as CategoryList
--- from movie as a INNER JOIN Movie_Category as b ON a.Movie_Id = b.Movie_Id 
--- INNER JOIN Category as c ON b.Category_Id =c.Category_Id
--- group BY a.Movie_Id, Movie_Name, Duration
--- select Invoice_Id, a.StartTime, a.Room_Id,  STRING_AGG(Seat_Id, ', '), sum(cost) as TotalCost 
--- from Ticket as a INNER JOIN MovieShow as b ON a.StartTime = b.StartTime
--- GROUP BY Invoice_Id, a.StartTime, a.Room_Id 
 
 
 Create TABLE MyTicket(
@@ -276,11 +191,14 @@ Create TABLE MyTicket(
     Movie_Name Nvarchar(200),
     Duration INT,
     CategoryList Nvarchar(500),
+    Poster Varchar(200),
     StartTime DateTime,
+    InvoiceDate Datetime,
     Room_Id Varchar(3), 
-    Seat_Id Varchar(3),
-    Price Money
-
+    Seat_Id Varchar(100),
+    Price Money, 
+    PhoneNumber Char(10)
+    PRIMARY KEY (Invoice_Id)
 )
 
 --------------------------------Trigger--------------------------------
@@ -302,7 +220,6 @@ BEGIN
     WHERE Invoice_Id = @InvoiceId;
 END;
 
-select Invoice_Id, Sum(Cost) from ticket group by Invoice_Id
 
 ------------------------------------ Data ------------------------------------
 INSERT INTO Category

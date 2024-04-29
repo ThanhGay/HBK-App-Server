@@ -16,7 +16,7 @@ VALUES
 ('2')
 
 DECLARE @Const Int
-set @Const = 1
+set @Const = SELECT SCOPE_IDENTITY() as Cop
 IF @Const = 1 
 BEGIN
     ROLLBACK TRANSACTION Booking1;
@@ -58,6 +58,27 @@ SELECT
             inner join Person as P on PM.Person_Id = p.Person_Id
             WHERE M.Movie_Id = 'MV0001' 
 
-            Select * from Invoice
+            Select * from MyTicket
 
-            SELECT * from Account
+            SELECT * from Invoice
+
+            select * From MovieShow
+            select getDate() from Invoice
+
+-- 1) Báo cáo doanh số bán hàng theo khoảng thời gian
+    -- 1.1) Bán theo được số ghế
+    SELECT *,
+    (SELECT COUNT(*) FROM STRING_SPLIT(Seat_Id, ',')) AS NumberOfSeats
+    FROM MyTicket
+    Where CONVERT(date, InvoiceDate) BETWEEN '2024/04/30' and '2024/06/01'
+
+select *
+from MyTicket
+
+Insert Into MyTicket 
+Values
+(1,'Date a Live', 120, 'Action, Romance', '2024-04-30 17:00:00.000', '2024-04-29 18:00:00.000', 'R01', 'A01, A02', 100000.00, '1'),
+(2,'Date a Live', 120, 'Action, Romance', '2024-04-30 17:00:00.000', '2024-04-29 18:00:00.000', 'R01', 'A01, A02', 50000.00, '1'),
+(3,'Bí mật nơi góc tối', 120, 'Action, Romance', '2024-05-30 17:00:00.000', '2024-04-29 18:00:00.000', 'R01', 'A01, A02', 50000.00, '1'),
+(4,'Bí mật nơi góc tối', 120, 'Action, Romance', '2024-06-30 17:00:00.000', '2024-04-29 18:00:00.000', 'R01', 'A01, A02', 100000.00, '1'),
+(5,'Bí mật nơi góc tối', 120, 'Action, Romance', '2024-06-30 17:00:00.000', '2024-6-01 18:00:00.000', 'R01', 'A01, A02', 100000.00, '1');
