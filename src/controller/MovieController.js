@@ -94,6 +94,98 @@ const getDBMovie = {
       return result.recordset;
     } catch (error) {}
   },
+
+  // ------------------------------------------Update------------------------------------------
+
+  // get category
+  getCategory: async () => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+      const query = 'select * from Category';
+      const result = await request.query(query);
+      return result.recordset;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+
+  // add category
+  addCategory: async (data) => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+      const query = `Insert Into Category
+      Values(@Category_Id, @Category_Name)`;
+      request.input('Category_Id', data.Category_Id);
+      request.input('Category_Name', data.Category_Name);
+      const result = await request.query(query);
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+
+  // add movie
+  addMovie: async (data) => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+      const query = `Insert Into Movie
+        Values(@Movie_Id, @Movie_Name, @Duration, @Censorship, @Language, @Release, @Expiration, @Description, @Poster)`;
+      for (key in data) {
+        request.input(key, data[key]);
+      }
+      const result1 = await request.query(query);
+      const query2 = [];
+      for (index in data.Category_Id) {
+        query2.push(`Insert Into Movie_Category
+        Values ('${data.Category_Id[index]}', @Movie_Id)`);
+      }
+      for (q in query2) {
+        const result2 = await request.query(q);
+      }
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+
+  // sửa thông tin phim (Khi sửa thì sẽ điền giá trị và nhập thêm Thể loại)
+  putMovie: async (data) => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+      const query1 = `Update Movie
+      set Movie_Name = @Movie_Name, Duration= @Duration, 
+      Censorship = @Censorship, Language= @Language, 
+      Release= @Release, Expiration=  @Expiration, 
+      Description= @Description, Poster= @Poster
+      Where Movie_Id = @Movie_Id`;
+      for (key in data) {
+        request.input(key, data[key]);
+      }
+      const result1 = await request.query(query1);
+      const query2 = `Delete From Movie_Category
+      Where Movie_Id = @Movie_Id`;
+      await request.query(query2);
+      const query3 = [];
+      for (index in data.Category_Id) {
+        query3.push(`Insert Into Movie_Category
+        Values ('${data.Category_Id[index]}', @Movie_Id)`);
+      }
+      for (q in query3) {
+        const result3 = await request.query(q);
+      }
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
 };
 
 module.exports = getDBMovie;

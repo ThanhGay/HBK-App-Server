@@ -136,13 +136,15 @@ Create Table Account
     Email varchar(200),
     Gender nvarchar(6),
     DateOfBirth date,
+    Role_Id BIT DEFAULT 0,
     Point int,
     CardClass varchar(8),
     PRIMARY KEY (PhoneNumber)
 );
 
-
-
+ALTER table Account
+add  Role_Id BIT DEFAULT 0
+SELECT * FROM Account
 -- Create Table Invoice
 Create Table Invoice
 (

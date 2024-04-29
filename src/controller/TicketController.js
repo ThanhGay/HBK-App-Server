@@ -140,7 +140,7 @@ const getDBTicket = {
       const pool = await connection;
       const request = pool.request();
       const query = `Insert into MyTicket
-        Values (@Invoice_Id, @Movie_Name, @Duration, @CategoryList, @StartTime, @Room_Id, @Seat_Id, @Price, @PhoneNumber)`;
+        Values (@Invoice_Id, @Movie_Name, @Duration, @CategoryList, @Poster, @StartTime, @Room_Id, @Seat_Id, @Price, @PhoneNumber)`;
       for (key in data) {
         request.input(key, data[key]);
       }

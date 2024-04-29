@@ -1,5 +1,6 @@
 // const express = require('express');
 const jwt = require('jsonwebtoken');
+const { processTrue, processFalse } = require('../processData/processDataInfo');
 require('dotenv').config();
 
 const middlewareController = {
@@ -14,10 +15,21 @@ const middlewareController = {
         }
         req.user = user;
         req.PhoneNumber = user.PhoneNumber;
+        console.log(user);
         next();
       });
     } else {
       res.status(401).json({ error: 'Token is missing' });
+    }
+  },
+  authorization: (req, res, next) => {
+    const auth = req.body.Role_Id;
+    console.log(auth);
+    if (auth) {
+      next();
+    } else {
+      const logData = 'You are not an administrator';
+      res.status(401).json(processFalse(logData));
     }
   },
 };
