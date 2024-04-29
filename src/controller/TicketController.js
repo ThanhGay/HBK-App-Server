@@ -49,12 +49,17 @@ const getDBTicket = {
     try {
       const pool = await connection;
       const request = pool.request();
-      const query = `Select * 
-            From Ticket
+      const query1 = `Select STRING_AGG(Seat_Id, ', ') as Reserved
+            From Ticket 
             where StartTime = @StartTime`;
+      const query2 = `Select Room_Id
+      From MovieShow
+      Where StartTime = @StartTime`;
       request.input('StartTime', data.StartTime);
-      const result = await request.query(query);
-      return result.recordset;
+      const result1 = await request.query(query1);
+      const result2 = await request.query(query2);
+
+      return [result1.recordset, result2.recordset];
     } catch (error) {
       console.error(error);
       throw error;
@@ -145,7 +150,7 @@ const getDBTicket = {
         request.input(key, data[key]);
       }
       const result = await request.query(query);
-      return result.recordset;
+      return data;
     } catch (error) {
       console.error(error);
       throw error;
