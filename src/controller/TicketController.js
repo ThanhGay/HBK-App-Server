@@ -58,8 +58,7 @@ const getDBTicket = {
       request.input('StartTime', data.StartTime);
       const result1 = await request.query(query1);
       const result2 = await request.query(query2);
-
-      return [result1.recordset, result2.recordset];
+      return [result1.recordset[0], result2.recordset[0]];
     } catch (error) {
       console.error(error);
       throw error;
