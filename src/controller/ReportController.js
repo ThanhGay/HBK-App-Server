@@ -6,8 +6,8 @@ const getDBReport = {
     try {
       const pool = await connection;
       const request = pool.request();
-      const query = `SELECT Sum(Price) as Total
-            FROM MyTicket
+      const query = `SELECT Sum(Cost) as Total
+            FROM Myticket
             Where CONVERT(date, InvoiceDate) BETWEEN @minDate and @maxDate`;
       request.input('minDate', data.minDate);
       request.input('maxDate', data.maxDate);

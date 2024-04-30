@@ -6,8 +6,8 @@ const middlewareController = require('../controller/middlewareController');
 
 routerReport.post(
   '/report-by-time',
-  middlewareController.verifyToken,
-  middlewareController.authorization,
+  // middlewareController.verifyToken,
+  // middlewareController.authorization,
   async (req, res) => {
     try {
       // truyen minDate, maxDate
@@ -66,3 +66,5 @@ routerReport.post(
     }
   },
 );
+
+module.exports = routerReport;
