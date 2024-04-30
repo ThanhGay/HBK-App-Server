@@ -4,6 +4,7 @@ const routerAccount = require('./src/router/AccountRoute');
 const routerToken = require('./src/router/TokenRoute');
 const routerMovie = require('./src/router/MovieRoute');
 const routerTicket = require('./src/router/TicketRouter');
+const routerReport = require('./src/router/ReportRoute');
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -24,6 +25,8 @@ app.use('/movie', routerMovie);
 
 // Route vé
 app.use('/ticket', routerTicket);
+
+app.use('/report', routerReport);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
