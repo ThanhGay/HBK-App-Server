@@ -49,7 +49,7 @@ const getDBTicket = {
     try {
       const pool = await connection;
       const request = pool.request();
-      const query1 = `Select STRING_AGG(Seat_Id, ', ') as Reserved
+      const query1 = `Select Seat_Id
             From Ticket 
             where StartTime = @StartTime`;
       const query2 = `Select Room_Id

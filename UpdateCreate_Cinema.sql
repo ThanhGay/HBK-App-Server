@@ -142,8 +142,12 @@ Create Table Account
     PRIMARY KEY (PhoneNumber)
 );
 
-ALTER table Account
-add  Role_Id BIT DEFAULT 0
+update Account
+set Role_Id = 1
+where PhoneNumber = '1'
+
+
+
 SELECT * FROM Account
 -- Create Table Invoice
 Create Table Invoice
@@ -222,7 +226,10 @@ BEGIN
     WHERE Invoice_Id = @InvoiceId;
 END;
 
+select * from Movie
 
+insert Into MovieShow
+Values('2024-05-5 10:00', 'MV0001', 'R01', '2D', 0)
 ------------------------------------ Data ------------------------------------
 INSERT INTO Category
     (Category_Id, Category_Name)
@@ -880,3 +887,5 @@ VALUES
 --    (Ticket_Id, StartTime)
 --VALUES
 --    ('000012', 'HD001', '2024/04/16 10:00' )
+
+select Seat_Id from Ticket
