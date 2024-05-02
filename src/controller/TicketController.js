@@ -11,25 +11,7 @@ const getDBTicket = {
       const pool = await connection;
       const request = pool.request();
 
-      const query =
-        // `Begin Transaction Booking
-        // Insert into Invoice
-        // Values (GetDate(), 0, @PhoneNumber)
-        // DECLARE @Const Int
-        // set @Const = @rollBack
-        // IF @Const = 0
-        // BEGIN
-        //     ROLLBACK TRANSACTION Booking;
-        //     PRINT 'rollBack thành công';
-        // END
-        // ELSE
-        // BEGIN
-        //     COMMIT TRANSACTION Booking;
-        //     PRINT 'Commit thành công';
-        // END;
-        // SELECT SCOPE_IDENTITY() AS NewInvoiceId;
-        // Select * from Invoice`
-        `Insert into Invoice
+      const query = `Insert into Invoice
             Values (GetDate(), 0, @PhoneNumber)
             SELECT SCOPE_IDENTITY() AS NewInvoiceId;`;
 
@@ -49,8 +31,8 @@ const getDBTicket = {
     try {
       const pool = await connection;
       const request = pool.request();
-      const query1 = `Select Seat_Id
-            From Ticket 
+      const query1 = `Select CONCAT('[', STRING_AGG(CONCAT('"', Seat_Id, '"'), ', '), ']')  as Reserved
+            From Ticket
             where StartTime = @StartTime`;
       const query2 = `Select Room_Id
       From MovieShow
@@ -58,8 +40,7 @@ const getDBTicket = {
       request.input('StartTime', data.StartTime);
       const result1 = await request.query(query1);
       const result2 = await request.query(query2);
-
-      return [result1.recordset, result2.recordset];
+      return [result1.recordset[0], result2.recordset[0]];
     } catch (error) {
       console.error(error);
       throw error;
@@ -145,7 +126,7 @@ const getDBTicket = {
       const pool = await connection;
       const request = pool.request();
       const query = `Insert into MyTicket
-        Values (@Invoice_Id, @Movie_Name, @Duration, @CategoryList, @Poster, @StartTime, @Room_Id, @Seat_Id, @Price, @PhoneNumber)`;
+        Values (@Invoice_Id, @Movie_Name, @Duration, @CategoryList, @Poster, @StartTime, @InvoiceDate, @Room_Id, @Seat_Id, @Price, @PhoneNumber)`;
       for (key in data) {
         request.input(key, data[key]);
       }

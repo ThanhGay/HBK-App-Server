@@ -1,9 +1,8 @@
 ﻿-- CREATE DATABASE UpdateCrossPlatformProject
 -- USE UpdateCrossPlatformProject
 -- drop DATABASE UpdateCrossPlatformProject
------------------------------------- Table ------------------------------------
 
-
+------------------------------------ Table -----------------------------------
 CREATE TABLE Category
 (
     Category_Id varchar(6),
@@ -142,13 +141,6 @@ Create Table Account
     PRIMARY KEY (PhoneNumber)
 );
 
-update Account
-set Role_Id = 1
-where PhoneNumber = '1'
-
-
-
-SELECT * FROM Account
 -- Create Table Invoice
 Create Table Invoice
 (
@@ -340,11 +332,11 @@ VALUES
 INSERT INTO Movie
     (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0001', N'Đào, Phở và Piano', 100, 15, 'Vietnamese','2024/04/21','2024/04/28', N'Bộ phim kể về trận chiến đông xuân kéo dài 60 ngày đêm tại thủ đô Hà Nội, và dõi theo cuộc sống của chàng dân quân mang tên Văn Dân và mối tình đầy mê hoặc với cô tiểu thư đam mê đàn dương cầm tên Thục Hương. Trong những trận đánh cuối trước lúc quân ta chuẩn bị rút lui khỏi thủ đô để chuẩn bị cho cuộc kháng chiến lâu dài, một số người quyết định ở lại trong mảnh đất đã tan hoang này vì bom đạn, không màng đến những nguy hiểm đang chờ đợi phía trước. Họ, dù có tên hay không, cùng nhau viết nên câu chuyện đầy bi kịch nhưng cũng không kém phần lãng mạn về tinh thần của Hà Nội trong ngày Tết và khói lửa của chiến tranh. Một người lính đã rất dũng cảm vượt qua bom đạn để mang về một nhánh hoa xuân nhằm mang niềm vui Tết cùng đồng đội. Anh ta cũng có một lễ cưới đầy tính cảm với cô tiểu thư xinh đẹp giữa bối cảnh Hà Nội vỡ nát. Trong đám cưới có một người họa sĩ già, người ở lại để nhớ về những người đã anh dũng hy sinh, cùng một vị linh mục với mong muốn sự yên ổn và không chiến tranh, họ cùng nhau thưởng thức một bát phở, trò chuyện và uống rượu để chào đón một ngày mới, ngày của sự hy sinh.', 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRc7TGWYAV3m63jS5t78TFJ-k6zvYEuELmmlgtX_pXHT3_hyi-x')
+    ('MV0001', N'Đào, Phở và Piano', 100, 15, 'Vietnamese','2024/04/01','2024/05/28', N'Bộ phim kể về trận chiến đông xuân kéo dài 60 ngày đêm tại thủ đô Hà Nội, và dõi theo cuộc sống của chàng dân quân mang tên Văn Dân và mối tình đầy mê hoặc với cô tiểu thư đam mê đàn dương cầm tên Thục Hương. Trong những trận đánh cuối trước lúc quân ta chuẩn bị rút lui khỏi thủ đô để chuẩn bị cho cuộc kháng chiến lâu dài, một số người quyết định ở lại trong mảnh đất đã tan hoang này vì bom đạn, không màng đến những nguy hiểm đang chờ đợi phía trước. Họ, dù có tên hay không, cùng nhau viết nên câu chuyện đầy bi kịch nhưng cũng không kém phần lãng mạn về tinh thần của Hà Nội trong ngày Tết và khói lửa của chiến tranh. Một người lính đã rất dũng cảm vượt qua bom đạn để mang về một nhánh hoa xuân nhằm mang niềm vui Tết cùng đồng đội. Anh ta cũng có một lễ cưới đầy tính cảm với cô tiểu thư xinh đẹp giữa bối cảnh Hà Nội vỡ nát. Trong đám cưới có một người họa sĩ già, người ở lại để nhớ về những người đã anh dũng hy sinh, cùng một vị linh mục với mong muốn sự yên ổn và không chiến tranh, họ cùng nhau thưởng thức một bát phở, trò chuyện và uống rượu để chào đón một ngày mới, ngày của sự hy sinh.', 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRc7TGWYAV3m63jS5t78TFJ-k6zvYEuELmmlgtX_pXHT3_hyi-x')
 INSERT INTO Movie
     (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0002', N'Godzilla x Kong: The New Emprise', 115, 13, 'English','2024/04/21','2024/04/28', N'Kong và Godzilla - hai sinh vật vĩ đại huyền thoại, hai kẻ thủ truyền kiếp sẽ cùng bắt tay thực thi một sứ mệnh chung mang tính sống còn để bảo vệ nhân loại, và trận chiến gắn kết chúng với loài người mãi mãi sẽ bắt đầu.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvB00vPWjxpIVSH3AegshsjFkOHs9tF6rN42MIbDQHX_k3Mmca')
+    ('MV0002', N'Godzilla x Kong: The New Emprise', 115, 13, 'English','2024/04/21','2024/06/01', N'Kong và Godzilla - hai sinh vật vĩ đại huyền thoại, hai kẻ thủ truyền kiếp sẽ cùng bắt tay thực thi một sứ mệnh chung mang tính sống còn để bảo vệ nhân loại, và trận chiến gắn kết chúng với loài người mãi mãi sẽ bắt đầu.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvB00vPWjxpIVSH3AegshsjFkOHs9tF6rN42MIbDQHX_k3Mmca')
 INSERT INTO Movie
     (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
@@ -364,7 +356,7 @@ VALUES
 INSERT INTO Movie
     (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0007', N'Toy Stories 4', 125, 15, 'English','2024/04/21','2024/04/28', N'Mô tả chi tiết phim Câu chuyện đồ chơi 4', 'https://thanhnien.mediacdn.vn/Uploaded/vananh/2019_06_22/mv5bmtyzmdm4nzkxov5bml5banbnxkftztgwnzm1mzg2nzm40_v1__QCYQ.jpg?width=500')
+    ('MV0007', N'Toy Stories 4', 125, 15, 'English','2024/04/01','2024/06/01', N'Mô tả chi tiết phim Câu chuyện đồ chơi 4', 'https://thanhnien.mediacdn.vn/Uploaded/vananh/2019_06_22/mv5bmtyzmdm4nzkxov5bml5banbnxkftztgwnzm1mzg2nzm40_v1__QCYQ.jpg?width=500')
 INSERT INTO Movie
     (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
@@ -666,122 +658,122 @@ INSERT INTO Account
 VALUES
     ('0373543125', 'dsdlviasdl@', 'xxxxxx@gmail.com', N'Nữ', N'Đức Trính', '2003/04/25', 150, 'Bronze')
 
-select * from Seat
+
 -- Data in Room 1
 INSERT INTO Seat
     (Seat_Id, row, col, Room_Id)
 VALUES
-    ('A01', 1, 1, 'R01'),
-    ('A02', 1, 2, 'R01'),
-    ('A03', 1, 3, 'R01'),
-    ('A04', 1, 4, 'R01'),
-    ('A05', 1, 5, 'R01'),
-    ('A06', 1, 6, 'R01'),
-    ('B01', 2, 1, 'R01'),
-    ('B02', 2, 2, 'R01'),
-    ('B03', 2, 3, 'R01'),
-    ('B04', 2, 4, 'R01'),
-    ('B05', 2, 5, 'R01'),
-    ('B06', 2, 6, 'R01'),
-    ('C01', 3, 1, 'R01'),
-    ('C02', 3, 2, 'R01'),
-    ('C03', 3, 3, 'R01'),
-    ('C04', 3, 4, 'R01'),
-    ('C05', 3, 5, 'R01'),
-    ('C06', 3, 6, 'R01'),
-    ('D01', 4, 1, 'R01'),
-    ('D02', 4, 2, 'R01'),
-    ('D03', 4, 3, 'R01'),
-    ('D04', 4, 4, 'R01'),
-    ('D05', 4, 5, 'R01'),
-    ('D06', 4, 6, 'R01');
+    ('A1', 1, 1, 'R01'),
+    ('A2', 1, 2, 'R01'),
+    ('A3', 1, 3, 'R01'),
+    ('A4', 1, 4, 'R01'),
+    ('A5', 1, 5, 'R01'),
+    ('A6', 1, 6, 'R01'),
+    ('B1', 2, 1, 'R01'),
+    ('B2', 2, 2, 'R01'),
+    ('B3', 2, 3, 'R01'),
+    ('B4', 2, 4, 'R01'),
+    ('B5', 2, 5, 'R01'),
+    ('B6', 2, 6, 'R01'),
+    ('C1', 3, 1, 'R01'),
+    ('C2', 3, 2, 'R01'),
+    ('C3', 3, 3, 'R01'),
+    ('C4', 3, 4, 'R01'),
+    ('C5', 3, 5, 'R01'),
+    ('C6', 3, 6, 'R01'),
+    ('D1', 4, 1, 'R01'),
+    ('D2', 4, 2, 'R01'),
+    ('D3', 4, 3, 'R01'),
+    ('D4', 4, 4, 'R01'),
+    ('D5', 4, 5, 'R01'),
+    ('D6', 4, 6, 'R01');
 
 -- Data in Room 2
 INSERT INTO Seat
     (Seat_Id, row, col, Room_Id)
 VALUES
-    ('A01', 1, 1, 'R02'),
-    ('A02', 1, 2, 'R02'),
-    ('A03', 1, 3, 'R02'),
-    ('A04', 1, 4, 'R02'),
-    ('A05', 1, 5, 'R02'),
-    ('A06', 1, 6, 'R02'),
-    ('B01', 2, 1, 'R02'),
-    ('B02', 2, 2, 'R02'),
-    ('B03', 2, 3, 'R02'),
-    ('B04', 2, 4, 'R02'),
-    ('B05', 2, 5, 'R02'),
-    ('B06', 2, 6, 'R02'),
-    ('C01', 3, 1, 'R02'),
-    ('C02', 3, 2, 'R02'),
-    ('C03', 3, 3, 'R02'),
-    ('C04', 3, 4, 'R02'),
-    ('C05', 3, 5, 'R02'),
-    ('C06', 3, 6, 'R02'),
-    ('D01', 4, 1, 'R02'),
-    ('D02', 4, 2, 'R02'),
-    ('D03', 4, 3, 'R02'),
-    ('D04', 4, 4, 'R02'),
-    ('D05', 4, 5, 'R02'),
-    ('D06', 4, 6, 'R02');
+    ('A1', 1, 1, 'R02'),
+    ('A2', 1, 2, 'R02'),
+    ('A3', 1, 3, 'R02'),
+    ('A4', 1, 4, 'R02'),
+    ('A5', 1, 5, 'R02'),
+    ('A6', 1, 6, 'R02'),
+    ('B1', 2, 1, 'R02'),
+    ('B2', 2, 2, 'R02'),
+    ('B3', 2, 3, 'R02'),
+    ('B4', 2, 4, 'R02'),
+    ('B5', 2, 5, 'R02'),
+    ('B6', 2, 6, 'R02'),
+    ('C1', 3, 1, 'R02'),
+    ('C2', 3, 2, 'R02'),
+    ('C3', 3, 3, 'R02'),
+    ('C4', 3, 4, 'R02'),
+    ('C5', 3, 5, 'R02'),
+    ('C6', 3, 6, 'R02'),
+    ('D1', 4, 1, 'R02'),
+    ('D2', 4, 2, 'R02'),
+    ('D3', 4, 3, 'R02'),
+    ('D4', 4, 4, 'R02'),
+    ('D5', 4, 5, 'R02'),
+    ('D6', 4, 6, 'R02');
 
 -- Data in Room 3
 INSERT INTO Seat
     (Seat_Id, row, col, Room_Id)
 VALUES
-    ('A01', 1, 1, 'R03'),
-    ('A02', 1, 2, 'R03'),
-    ('A03', 1, 3, 'R03'),
-    ('A04', 1, 4, 'R03'),
-    ('A05', 1, 5, 'R03'),
-    ('A06', 1, 6, 'R03'),
-    ('B01', 2, 1, 'R03'),
-    ('B02', 2, 2, 'R03'),
-    ('B03', 2, 3, 'R03'),
-    ('B04', 2, 4, 'R03'),
-    ('B05', 2, 5, 'R03'),
-    ('B06', 2, 6, 'R03'),
-    ('C01', 3, 1, 'R03'),
-    ('C02', 3, 2, 'R03'),
-    ('C03', 3, 3, 'R03'),
-    ('C04', 3, 4, 'R03'),
-    ('C05', 3, 5, 'R03'),
-    ('C06', 3, 6, 'R03'),
-    ('D01', 4, 1, 'R03'),
-    ('D02', 4, 2, 'R03'),
-    ('D03', 4, 3, 'R03'),
-    ('D04', 4, 4, 'R03'),
-    ('D05', 4, 5, 'R03'),
-    ('D06', 4, 6, 'R03');
+    ('A1', 1, 1, 'R03'),
+    ('A2', 1, 2, 'R03'),
+    ('A3', 1, 3, 'R03'),
+    ('A4', 1, 4, 'R03'),
+    ('A5', 1, 5, 'R03'),
+    ('A6', 1, 6, 'R03'),
+    ('B1', 2, 1, 'R03'),
+    ('B2', 2, 2, 'R03'),
+    ('B3', 2, 3, 'R03'),
+    ('B4', 2, 4, 'R03'),
+    ('B5', 2, 5, 'R03'),
+    ('B6', 2, 6, 'R03'),
+    ('C1', 3, 1, 'R03'),
+    ('C2', 3, 2, 'R03'),
+    ('C3', 3, 3, 'R03'),
+    ('C4', 3, 4, 'R03'),
+    ('C5', 3, 5, 'R03'),
+    ('C6', 3, 6, 'R03'),
+    ('D1', 4, 1, 'R03'),
+    ('D2', 4, 2, 'R03'),
+    ('D3', 4, 3, 'R03'),
+    ('D4', 4, 4, 'R03'),
+    ('D5', 4, 5, 'R03'),
+    ('D6', 4, 6, 'R03');
 
 -- Data in Room 4
 INSERT INTO Seat
     (Seat_Id, row, col, Room_Id)
 VALUES
-    ('A01', 1, 1, 'R04'),
-    ('A02', 1, 2, 'R04'),
-    ('A03', 1, 3, 'R04'),
-    ('A04', 1, 4, 'R04'),
-    ('A05', 1, 5, 'R04'),
-    ('A06', 1, 6, 'R04'),
-    ('B01', 2, 1, 'R04'),
-    ('B02', 2, 2, 'R04'),
-    ('B03', 2, 3, 'R04'),
-    ('B04', 2, 4, 'R04'),
-    ('B05', 2, 5, 'R04'),
-    ('B06', 2, 6, 'R04'),
-    ('C01', 3, 1, 'R04'),
-    ('C02', 3, 2, 'R04'),
-    ('C03', 3, 3, 'R04'),
-    ('C04', 3, 4, 'R04'),
-    ('C05', 3, 5, 'R04'),
-    ('C06', 3, 6, 'R04'),
-    ('D01', 4, 1, 'R04'),
-    ('D02', 4, 2, 'R04'),
-    ('D03', 4, 3, 'R04'),
-    ('D04', 4, 4, 'R04'),
-    ('D05', 4, 5, 'R04'),
-    ('D06', 4, 6, 'R04');
+    ('A1', 1, 1, 'R04'),
+    ('A2', 1, 2, 'R04'),
+    ('A3', 1, 3, 'R04'),
+    ('A4', 1, 4, 'R04'),
+    ('A5', 1, 5, 'R04'),
+    ('A6', 1, 6, 'R04'),
+    ('B1', 2, 1, 'R04'),
+    ('B2', 2, 2, 'R04'),
+    ('B3', 2, 3, 'R04'),
+    ('B4', 2, 4, 'R04'),
+    ('B5', 2, 5, 'R04'),
+    ('B6', 2, 6, 'R04'),
+    ('C1', 3, 1, 'R04'),
+    ('C2', 3, 2, 'R04'),
+    ('C3', 3, 3, 'R04'),
+    ('C4', 3, 4, 'R04'),
+    ('C5', 3, 5, 'R04'),
+    ('C6', 3, 6, 'R04'),
+    ('D1', 4, 1, 'R04'),
+    ('D2', 4, 2, 'R04'),
+    ('D3', 4, 3, 'R04'),
+    ('D4', 4, 4, 'R04'),
+    ('D5', 4, 5, 'R04'),
+    ('D6', 4, 6, 'R04');
 
 
 
@@ -806,8 +798,22 @@ INSERT INTO MovieShow
     (StartTime, Movie_Id, Room_Id, TypeShow, Surcharge)
 VALUES
     ('2024/04/25 17:00', 'MV0004', 'R04', N'2D', 0)
-
-
+INSERT INTO MovieShow
+    (StartTime, Movie_Id, Room_Id, TypeShow, Surcharge)
+VALUES
+    ('2024/05/01 07:00', 'MV0007', 'R04', N'2D', 0)
+INSERT INTO MovieShow
+    (StartTime, Movie_Id, Room_Id, TypeShow, Surcharge)
+VALUES
+    ('2024/05/01 12:00', 'MV0001', 'R02', N'3D', 10000)
+INSERT INTO MovieShow
+    (StartTime, Movie_Id, Room_Id, TypeShow, Surcharge)
+VALUES
+    ('2024/05/01 17:00', 'MV0007', 'R02', N'2D', 0)
+INSERT INTO MovieShow
+    (StartTime, Movie_Id, Room_Id, TypeShow, Surcharge)
+VALUES
+    ('2024/05/02 08:00', 'MV0002', 'R02', N'2D', 0)
 
 INSERT INTO Invoice
     (InvoiceDate, PhoneNumber)
@@ -837,55 +843,3 @@ INSERT INTO Invoice
     (InvoiceDate, PhoneNumber)
 VALUES
     ('2024/04/13', '0988321861')
-
-
---INSERT INTO Ticket
---    (Ticket_Id, StartTime)
---VALUES
---    ('000001', 'HD001', '2024/04/16 10:00' )
---INSERT INTO Ticket
---    (Ticket_Id, StartTime)
---VALUES
---    ('000002', 'HD001', '2024/04/16 10:00' )
---INSERT INTO Ticket
---    (Ticket_Id, StartTime)
---VALUES
---    ('000003', 'HD002', '2024/04/16 10:00' )
---INSERT INTO Ticket
---    (Ticket_Id, StartTime)
---VALUES
---    ('000004', 'HD005', '2024/04/16 10:00' )
---INSERT INTO Ticket
---    (Ticket_Id, StartTime)
---VALUES
---    ('000005', 'HD007', '2024/04/16 10:00' )
---INSERT INTO Ticket
---    (Ticket_Id, StartTime)
---VALUES
---    ('000006', 'HD006', '2024/04/16 10:00' )
---INSERT INTO Ticket
---    (Ticket_Id, StartTime)
---VALUES
---    ('000007', 'HD004', '2024/04/16 10:00' )
---INSERT INTO Ticket
---    (Ticket_Id, StartTime)
---VALUES
---    ('000008', 'HD006', '2024/04/16 10:00' )
---INSERT INTO Ticket
---    (Ticket_Id, StartTime)
---VALUES
---    ('000009', 'HD002', '2024/04/16 10:00' )
---INSERT INTO Ticket
---    (Ticket_Id, StartTime)
---VALUES
---    ('000010', 'HD001', '2024/04/16 10:00' )
---INSERT INTO Ticket
---    (Ticket_Id, StartTime)
---VALUES
---    ('000011', 'HD001', '2024/04/16 10:00' )
---INSERT INTO Ticket
---    (Ticket_Id, StartTime)
---VALUES
---    ('000012', 'HD001', '2024/04/16 10:00' )
-
-select Seat_Id from Ticket
