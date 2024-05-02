@@ -173,11 +173,11 @@ routerTicket.post(
       const result3 = await request.query(query3);
 
       activeTransaction = transaction;
-      res.status(200).json(result3.recordset);
+      res.status(200).json(processTrue(result3.recordset[0]));
     } catch (error) {
       // Handle errors
       console.error('Error occurred:', error);
-      res.status(500).send('Internal Server Error');
+      res.status(500).json(processFalse('Internal Server Error'));
     }
   },
 );
@@ -189,23 +189,25 @@ routerTicket.post('/active-transaction', async (req, res) => {
     console.log(activeTransaction);
 
     if (!activeTransaction) {
-      res.status(400).send('Transaction not found.');
+      res.status(400).json(processFalse('Transaction not found.'));
       return;
     }
     if (decision === 1) {
       await activeTransaction.commit();
-      res.status(200).send('Transaction committed successfully.');
+      res.status(200).json(processTrue('Transaction committed successfully.'));
     } else if (decision === 0) {
       await activeTransaction.rollback();
 
-      res.status(200).send('Transaction rolled back successfully.');
+      res
+        .status(200)
+        .json(processTrue('Transaction rolled back successfully.'));
     } else {
-      res.status(400).send('Invalid decision.');
+      res.status(400).json(processFalse('Invalid decision.'));
     }
     activeTransaction = null;
   } catch (error) {
     console.error('Error occurred:', error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).json(processFalse('Internal Server Error'));
   }
 });
 
