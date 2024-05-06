@@ -24,6 +24,32 @@ const getDBMovie = {
       throw error;
     }
   },
+  NowPlayingPage: async (data) => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+      const query = `SELECT
+        M.Movie_Id,
+        M.Movie_Name,
+        M.Poster,
+        (SELECT STRING_AGG(C.Category_Name, ', ')
+         FROM Movie_Category AS MC
+         INNER JOIN Category AS C ON MC.Category_Id = C.Category_Id
+         WHERE MC.Movie_Id = M.Movie_Id) AS Categories,
+        M.Duration
+        FROM Movie AS M
+        WHERE GETDATE() BETWEEN M.Release AND M.Expiration
+        ORDER BY M.Movie_Id 
+	      OFFSET (@page-1)*@limit ROWS
+	      FETCH NEXT @limit ROWS ONLY;`;
+      request.input('limit', parseInt(data.limit));
+      request.input('page', parseInt(data.page));
+      const result = await request.query(query);
+
+      return result.recordset;
+      // console.log(data);
+    } catch (error) {}
+  },
 
   ComingSoon: async () => {
     try {

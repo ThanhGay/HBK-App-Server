@@ -310,8 +310,8 @@ VALUES
 INSERT INTO Movie
     (Movie_Id, Movie_Name, Duration, Censorship, Language,Release, Expiration, Description, Poster)
 VALUES
-    ('MV001', N'The Shawshank Redemption', 142,  13, N'English','2024/04/21','2024/04/28' ,N'A story of hope and friendship in a prison setting.', 'https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_.jpg'),
-    ('MV002', N'Spirited Away', 125, 0, N'Japanese','2024/04/21','2024/04/28', N'A coming-of-age story about a girl in the spirit world.', 'https://kenh14cdn.com/203336854389633024/2021/11/13/mv5bmjlmzmi5mdctnde2ys00ywe0lwe5zwitzdbhywq0ntcxnwrhxkeyxkfqcgdeqxvymtmxodk2otuv1-1636778149864183874398.jpg'),
+    ('MV001', N'The Shawshank Redemption', 142,  13, N'English','2024/04/21','2024/05/28' ,N'A story of hope and friendship in a prison setting.', 'https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_.jpg'),
+    ('MV002', N'Spirited Away', 125, 0, N'Japanese','2024/04/21','2024/05/28', N'A coming-of-age story about a girl in the spirit world.', 'https://kenh14cdn.com/203336854389633024/2021/11/13/mv5bmjlmzmi5mdctnde2ys00ywe0lwe5zwitzdbhywq0ntcxnwrhxkeyxkfqcgdeqxvymtmxodk2otuv1-1636778149864183874398.jpg'),
     ('MV003', N'The Dark Knight', 152, 16, N'English','2024/04/21','2024/04/28', N'A superhero movie exploring themes of good and evil.', 'https://upload.wikimedia.org/wikipedia/vi/2/2d/Poster_phim_K%E1%BB%B5_s%C4%A9_b%C3%B3ng_%C4%91%C3%AAm_2008.jpg'),
     ('MV004', N'The Lord of the Rings: The Fellowship of the Ring', 178, 13, N'English','2024/04/21','2024/04/28', N'An epic fantasy adventure about a hobbit and his friends on a quest to destroy the One Ring.', 'https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_.jpg'),
     ('MV005', N'The Godfather', 175, 18, N'English','2024/04/21','2024/04/28', N'A classic gangster film about the Corleone family.', 'https://play-lh.googleusercontent.com/ZucjGxDqQ-cHIN-8YA1HgZx7dFhXkfnz73SrdRPmOOHEax08sngqZMR_jMKq0sZuv5P7-T2Z2aHJ1uGQiys'),
@@ -337,7 +337,7 @@ VALUES
 INSERT INTO Movie
     (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0003', N'Avengers: Infinity War', 165, 15, 'English','2024/04/21','2024/04/28', N'Mô tả chi tiết phim Biệt đội báo thù', 'https://upload.wikimedia.org/wikipedia/vi/e/e8/Avengers-Infinity_War-Official-Poster.jpg')
+    ('MV0003', N'Avengers: Infinity War', 165, 15, 'English','2024/04/21','2024/05/28', N'Mô tả chi tiết phim Biệt đội báo thù', 'https://upload.wikimedia.org/wikipedia/vi/e/e8/Avengers-Infinity_War-Official-Poster.jpg')
 INSERT INTO Movie
     (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
@@ -345,11 +345,11 @@ VALUES
 INSERT INTO Movie
     (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0005', N'Thiên long bát bộ', 130, 15, 'Tailwand','2024/04/21','2024/04/28', N'Mô tả chi tiết phim Thiên long bát bộ', 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1630546779i/22470055.jpg')
+    ('MV0005', N'Thiên long bát bộ', 130, 15, 'Tailwand','2024/05/21','2024/05/28', N'Mô tả chi tiết phim Thiên long bát bộ', 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1630546779i/22470055.jpg')
 INSERT INTO Movie
     (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
-    ('MV0006', N'Blue Wolf', 85, 11, 'Korean','2024/04/21','2024/04/28', N'Mô tả chi tiết phim Sói xanh', 'https://ih1.redbubble.net/image.1189606581.2997/flat,750x,075,f-pad,750x1000,f8f8f8.jpg')
+    ('MV0006', N'Blue Wolf', 85, 11, 'Korean','2024/05/21','2024/05/28', N'Mô tả chi tiết phim Sói xanh', 'https://ih1.redbubble.net/image.1189606581.2997/flat,750x,075,f-pad,750x1000,f8f8f8.jpg')
 INSERT INTO Movie
     (Movie_Id, Movie_Name,Duration,Censorship,Language ,Release, Expiration, Description, Poster)
 VALUES
@@ -811,32 +811,44 @@ INSERT INTO MovieShow
     (StartTime, Movie_Id, Room_Id, TypeShow, Surcharge)
 VALUES
     ('2024/05/02 08:00', 'MV0002', 'R02', N'2D', 0)
+INSERT INTO MovieShow
+    (StartTime, Movie_Id, Room_Id, TypeShow, Surcharge)
+VALUES
+    ('2024/05/12 08:00', 'MV0001', 'R02', N'2D', 0)
+INSERT INTO MovieShow
+    (StartTime, Movie_Id, Room_Id, TypeShow, Surcharge)
+VALUES
+    ('2024/05/05 19:00', 'MV0001', 'R02', N'2D', 0)
 
-INSERT INTO Invoice
-    (InvoiceDate, PhoneNumber)
+INSERT INTO MovieShow
+    (StartTime, Movie_Id, Room_Id, TypeShow, Surcharge)
 VALUES
-    ('2024/04/16', '0372273819')
-INSERT INTO Invoice
-    (InvoiceDate, PhoneNumber)
+    ('2024/05/05 7:00', 'MV0001', 'R02', N'2D', 0)
+INSERT INTO MovieShow
+    (StartTime, Movie_Id, Room_Id, TypeShow, Surcharge)
 VALUES
-    ('2024/04/15', '0988321861')
-INSERT INTO Invoice
-    (InvoiceDate, PhoneNumber)
+    ('2024/05/05 9:00', 'MV0001', 'R02', N'2D', 0)
+    INSERT INTO MovieShow
+    (StartTime, Movie_Id, Room_Id, TypeShow, Surcharge)
 VALUES
-    ('2024/04/18', '0999999999')
-INSERT INTO Invoice
-    (InvoiceDate, PhoneNumber)
+    ('2024/05/05 11:00', 'MV0001', 'R02', N'2D', 0)
+    INSERT INTO MovieShow
+    (StartTime, Movie_Id, Room_Id, TypeShow, Surcharge)
 VALUES
-    ('2024/04/17', '0999999999')
-INSERT INTO Invoice
-    (InvoiceDate, PhoneNumber)
+    ('2024/05/05 13:00', 'MV0001', 'R02', N'2D', 0)
+    INSERT INTO MovieShow
+    (StartTime, Movie_Id, Room_Id, TypeShow, Surcharge)
 VALUES
-    ('2024/04/14', '0988321861')
-INSERT INTO Invoice
-    (InvoiceDate, PhoneNumber)
+    ('2024/05/05 15:00', 'MV0001', 'R02', N'2D', 0)
+
+INSERT INTO MovieShow
+    (StartTime, Movie_Id, Room_Id, TypeShow, Surcharge)
 VALUES
-    ('2024/04/13', '0372273819')
-INSERT INTO Invoice
-    (InvoiceDate, PhoneNumber)
-VALUES
-    ('2024/04/13', '0988321861')
+    ('2024/05/05 17:00', 'MV0001', 'R02', N'2D', 0)
+
+
+
+
+
+select * from Invoice
+

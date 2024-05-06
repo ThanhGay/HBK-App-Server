@@ -17,6 +17,18 @@ routerMovie.get('/now-playing/', async (req, res) => {
   }
 });
 
+//http://localhost:8888/movie/now-playing1/?limit=2&page=4
+routerMovie.get('/now-playing1/', async (req, res) => {
+  try {
+    const getParams = req.query;
+    console.log(getParams);
+    const data = await getDBMovie.NowPlayingPage(getParams);
+    res.json(processTrue(data));
+  } catch (error) {
+    res.status(500).json(processFalse(error.message));
+  }
+});
+
 // danh sách phim sắp chiếu
 routerMovie.get('/coming-soon', async (req, res) => {
   try {
