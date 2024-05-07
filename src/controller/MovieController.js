@@ -138,23 +138,6 @@ const getDBMovie = {
     }
   },
 
-  // add category
-  addCategory: async (data) => {
-    try {
-      const pool = await connection;
-      const request = pool.request();
-      const query = `Insert Into Category
-      Values(@Category_Id, @Category_Name)`;
-      request.input('Category_Id', data.Category_Id);
-      request.input('Category_Name', data.Category_Name);
-      const result = await request.query(query);
-      return data;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  },
-
   // add movie
   addMovie: async (data) => {
     try {
@@ -236,6 +219,54 @@ const getDBMovie = {
 
         await request.query(q);
       }
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+
+  // addMovieShow
+  addMovieShow: async (data) => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+
+      for (let i = 0; i < data.length; i++) {
+        const item = data[i];
+
+        for (const key in item) {
+          if (Object.hasOwnProperty.call(item, key)) {
+            const value = item[key];
+            request.input(`${key}_${i}`, value);
+          }
+        }
+
+        const query = `
+          INSERT INTO Movieshow 
+          VALUES (@StartTime_${i}, @Movie_Id_${i}, @Room_Id_${i}, @TypeShow_${i}, 0)
+        `;
+
+        await request.query(query);
+      }
+
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+
+  // add category
+  addCategory: async (data) => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+      const query = `Insert Into Category
+      Values(@Category_Id, @Category_Name)`;
+      request.input('Category_Id', data.Category_Id);
+      request.input('Category_Name', data.Category_Name);
+      const result = await request.query(query);
       return data;
     } catch (error) {
       console.error(error);

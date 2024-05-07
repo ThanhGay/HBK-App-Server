@@ -114,4 +114,14 @@ routerMovie.put(
     }
   },
 );
+
+routerMovie.post('/add-movieshow', async (req, res) => {
+  try {
+    const postData = req.body;
+    const data = await getDBMovie.addMovieShow(postData);
+    res.json(processTrue(data));
+  } catch (error) {
+    res.json(processFalse(error.message));
+  }
+});
 module.exports = routerMovie;
