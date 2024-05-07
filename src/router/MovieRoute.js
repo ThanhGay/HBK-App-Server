@@ -65,19 +65,24 @@ routerMovie.get('/:Id', async (req, res) => {
 // ---------------------------------Update---------------------------------
 
 // category (truyeenf token va "Role_Id" o body)
-routerMovie.post(
-  '/category',
-  middlewareController.verifyToken,
-  middlewareController.authorization,
-  async (req, res) => {
-    try {
-      const data = await getDBMovie.getCategory();
-      res.json(data);
-    } catch (error) {
-      res.status(500).json(processFalse(data));
-    }
-  },
-);
+routerMovie.post('/category/', async (req, res) => {
+  try {
+    const data = await getDBMovie.getCategory();
+    res.json(processTrue(data));
+  } catch (error) {
+    res.status(500).json(processFalse(error.message));
+  }
+});
+
+routerMovie.post('/add-movie', async (req, res) => {
+  try {
+    const postData = req.body;
+    const data = await getDBMovie.addMovie(postData);
+    res.json(processTrue(data));
+  } catch (error) {
+    res.json(processFalse(error));
+  }
+});
 
 // add category (Role_Id => khi co app truyen tu ngoai nhu truyen token, Category_Id, Category_Name)
 routerMovie.post(
@@ -96,9 +101,9 @@ routerMovie.post(
 );
 // edit info movie (truyen thong tin phim va "Category_Id" : [Id1, Id2,...])
 routerMovie.put(
-  'put-movie',
-  middlewareController.verifyToken,
-  middlewareController.authorization,
+  '/put-movie',
+  // middlewareController.verifyToken,
+  // middlewareController.authorization,
   async (req, res) => {
     try {
       const putData = req.body;
