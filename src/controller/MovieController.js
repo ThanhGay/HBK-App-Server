@@ -95,30 +95,38 @@ const getDBMovie = {
     try {
       const pool = await connection;
       const request = pool.request();
-      const query = `SELECT 
-            M.Movie_Id, 
-            M.Movie_Name, 
-            M.Poster, 
-            (SELECT STRING_AGG(C.Category_Name, ', ') 
-             FROM Movie_Category AS MC 
-             INNER JOIN Category AS C ON MC.Category_Id = C.Category_Id 
-             WHERE MC.Movie_Id = M.Movie_Id) AS Categories, 
-            M.Duration,
-            Language,
-            Censorship, 
-            Release, 
-            Description,
-            Person_Name, 
-            character,
-            image
-            FROM Movie AS M 
-            inner join Person_Movie as PM on M.Movie_Id = PM.Movie_Id 
-            inner join Person as P on PM.Person_Id = p.Person_Id
-            WHERE M.Movie_Id = @Movie_Id `;
+      console.log(data);
+      const query = `
+      SELECT 
+                  M.Movie_Id, 
+                  M.Movie_Name, 
+                  M.Poster, 
+                  (SELECT STRING_AGG(C.Category_Name, ', ') 
+                   FROM Movie_Category AS MC 
+                   INNER JOIN Category AS C ON MC.Category_Id = C.Category_Id 
+                   WHERE MC.Movie_Id = M.Movie_Id) AS Categories, 
+                  M.Duration,
+                  Language,
+                  Censorship, 
+                  Release, 
+                  Description,
+                  (select CONCAT('[', STRING_AGG(CONCAT('"', p.Person_Name, '"'), ', '), ']') from Person_Movie as PM INNER JOIN Person as P
+      on PM.Person_Id = p.Person_Id
+      where PM.Movie_Id = @Movie_Id and PM.character = 'Actor') as Actor,
+      (select CONCAT('[', STRING_AGG(CONCAT('"', p.Person_Name, '"'), ', '), ']') from Person_Movie as PM INNER JOIN Person as P
+      on PM.Person_Id = p.Person_Id
+      where PM.Movie_Id = @Movie_Id and PM.character = 'Director') as Director
+                  FROM Movie AS M 
+                  WHERE M.Movie_Id = @Movie_Id ;`;
       request.input('Movie_Id', data);
       const result = await request.query(query);
+      console.log(result);
+
       return result.recordset;
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   },
 
   // ------------------------------------------Update------------------------------------------
@@ -130,7 +138,6 @@ const getDBMovie = {
       const request = pool.request();
       const query = 'select * from Category';
       const result = await request.query(query);
-      console.log(query);
       return result.recordset;
     } catch (error) {
       console.error(error);
@@ -268,6 +275,61 @@ const getDBMovie = {
       request.input('Category_Name', data.Category_Name);
       const result = await request.query(query);
       return data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+
+  // Edit Category
+  editCategory: async (data) => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+      const query = `
+      Update Category
+      set Category_Name = @Category_Name
+      Where Category_Id = @Category_Id
+      `;
+      request.input('Category_Id', data.Category_Id),
+        request.input('Category_Name', data.Category_Name);
+      const result = await request.query(query);
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+
+  // delete category
+  deleteCategory: async (data) => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+      const query = `
+    Delete from Movie_Category
+    where Category_Id = @Category_Id
+    Delete from Category
+    Where Category_Id = @Category
+    `;
+      const result = request.query(query);
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+
+  searchMovie: async (data) => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+      const query = `
+      Select * from Movie
+      Where Movie_Name like '%${data}%'
+      `;
+      const result = await request.query(query);
+      return result.recordset;
     } catch (error) {
       console.error(error);
       throw error;
