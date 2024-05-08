@@ -22,8 +22,8 @@ routerReport.post(
 
 routerReport.get(
   '/report-by-movie',
-  middlewareController.verifyToken,
-  middlewareController.authorization,
+  // middlewareController.verifyToken,
+  // middlewareController.authorization,
   async (req, res) => {
     try {
       // khong truyen
@@ -37,8 +37,8 @@ routerReport.get(
 
 routerReport.post(
   '/report-by-quarter',
-  middlewareController.verifyToken,
-  middlewareController.authorization,
+  // middlewareController.verifyToken,
+  // middlewareController.authorization,
   async (req, res) => {
     try {
       // truyen year muon bao cao
@@ -53,8 +53,8 @@ routerReport.post(
 
 routerReport.post(
   '/report-by-customer',
-  middlewareController.verifyToken,
-  middlewareController.authorization,
+  // middlewareController.verifyToken,
+  // middlewareController.authorization,
   async (req, res) => {
     // truyen minDate, maxDate
     try {
