@@ -2,10 +2,14 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const Token = {
-  generateAccessToken: (PhoneNumber) => {
-    const token = jwt.sign({ PhoneNumber }, process.env.JWT_ACCESS_KEY, {
-      expiresIn: '1d',
-    });
+  generateAccessToken: (PhoneNumber, Role_Id) => {
+    const token = jwt.sign(
+      { PhoneNumber, Role_Id },
+      process.env.JWT_ACCESS_KEY,
+      {
+        expiresIn: '1d',
+      },
+    );
     return token;
   },
   generateRefreshToken: (PhoneNumber) => {

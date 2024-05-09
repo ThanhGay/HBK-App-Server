@@ -38,7 +38,7 @@ routerReport.get(
 routerReport.post(
   '/report-by-quarter',
   // middlewareController.verifyToken,
-  // middlewareController.authorization,
+  middlewareController.authorization,
   async (req, res) => {
     try {
       // truyen year muon bao cao

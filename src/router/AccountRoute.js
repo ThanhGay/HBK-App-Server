@@ -11,16 +11,21 @@ const { processTrue, processFalse } = require('../processData/processDataInfo');
 routerAccount.post('/sign-in', async (req, res) => {
   try {
     const postAccount = req.body;
-    console.log(postAccount);
     const data = await getDBAccount.getData(postAccount);
     const status = !!data.length;
     const msg = status ? 'Đăng nhập thành công' : 'Đăng nhập thất bại';
     let token = null;
     let refreshToken = null;
-
     if (status) {
-      token = Token.generateAccessToken(postAccount.PhoneNumber);
-      refreshToken = Token.generateRefreshToken(postAccount.PhoneNumber);
+      token = Token.generateAccessToken(
+        postAccount.PhoneNumber,
+        data[0].Role_Id,
+      );
+      refreshToken = Token.generateRefreshToken(
+        postAccount.PhoneNumber,
+        data[0].Role_Id,
+      );
+
       res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         secure: true,
