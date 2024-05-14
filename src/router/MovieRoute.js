@@ -137,7 +137,7 @@ routerMovie.put('/edit-category', async (req, res) => {
 });
 
 // Delete category truyen category_Id muon xoa
-routerMovie.delete('/delete-category', async (req, res) => {
+routerMovie.post('/delete-category', async (req, res) => {
   try {
     const delData = req.body;
     const data = await getDBMovie.deleteCategory(delData);
