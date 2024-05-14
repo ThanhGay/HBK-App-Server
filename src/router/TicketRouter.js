@@ -202,10 +202,12 @@ routerTicket.post('/active-transaction', async (req, res) => {
         .status(200)
         .json(processTrue('Transaction rolled back successfully.'));
     } else {
+      await activeTransaction.rollback();
       res.status(400).json(processFalse('Invalid decision.'));
     }
-    activeTransaction = null;
+    // activeTransaction = null;
   } catch (error) {
+    await activeTransaction.rollback();
     console.error('Error occurred:', error);
     res.status(500).json(processFalse('Internal Server Error'));
   }

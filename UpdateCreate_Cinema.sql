@@ -130,7 +130,7 @@ Create Table Product
 Create Table Account
 (
     PhoneNumber char(10) unique,
-    PassWord varchar(30),
+    Password varchar(30),
     FullName nvarchar(30),
     Email varchar(200),
     Gender nvarchar(6),
