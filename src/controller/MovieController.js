@@ -1,5 +1,6 @@
 const { json } = require('body-parser');
 const connection = require('../config/database');
+const { query } = require('express');
 
 const getDBMovie = {
   NowPlaying: async () => {
@@ -312,7 +313,8 @@ const getDBMovie = {
     Delete from Category
     Where Category_Id = @Category_Id
     `;
-      const result = request.query(query);
+      request.input('Category_Id', data.Category_Id);
+      const result = await request.query(query);
       return data;
     } catch (error) {
       console.error(error);
