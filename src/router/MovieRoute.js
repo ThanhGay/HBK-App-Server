@@ -66,7 +66,7 @@ routerMovie.get('/detail-movie/:Id', async (req, res) => {
 // ---------------------------------Update---------------------------------
 
 // category (truyeenf token va "Role_Id" o body)
-routerMovie.post('/category', async (req, res) => {
+routerMovie.get('/category', async (req, res) => {
   try {
     const data = await getDBMovie.getCategory();
     res.json(processTrue(data));

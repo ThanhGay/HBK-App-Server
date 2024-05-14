@@ -291,8 +291,8 @@ const getDBMovie = {
       set Category_Name = @Category_Name
       Where Category_Id = @Category_Id
       `;
-      request.input('Category_Id', data.Category_Id),
-        request.input('Category_Name', data.Category_Name);
+      request.input('Category_Id', data.Category_Id);
+      request.input('Category_Name', data.Category_Name);
       const result = await request.query(query);
       return data;
     } catch (error) {
@@ -310,7 +310,7 @@ const getDBMovie = {
     Delete from Movie_Category
     where Category_Id = @Category_Id
     Delete from Category
-    Where Category_Id = @Category
+    Where Category_Id = @Category_Id
     `;
       const result = request.query(query);
       return data;
