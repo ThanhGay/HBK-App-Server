@@ -132,6 +132,8 @@ routerTicket.post(
   '/transaction-invoice',
   middlewareController.verifyToken,
   async (req, res) => {
+    // let activeTransaction = null;
+    console.log(activeTransaction);
     try {
       const data = req.body;
       data.PhoneNumber = req.PhoneNumber;
@@ -192,12 +194,12 @@ routerTicket.post('/active-transaction', async (req, res) => {
       res.status(400).json(processFalse('Transaction not found.'));
       return;
     }
+
     if (decision === 1) {
       await activeTransaction.commit();
       res.status(200).json(processTrue('Transaction committed successfully.'));
     } else if (decision === 0) {
       await activeTransaction.rollback();
-
       res
         .status(200)
         .json(processTrue('Transaction rolled back successfully.'));
@@ -205,11 +207,15 @@ routerTicket.post('/active-transaction', async (req, res) => {
       await activeTransaction.rollback();
       res.status(400).json(processFalse('Invalid decision.'));
     }
-    activeTransaction = null;
   } catch (error) {
-    await activeTransaction.rollback();
+    if (activeTransaction) {
+      await activeTransaction.rollback();
+    }
+
     console.error('Error occurred:', error);
     res.status(500).json(processFalse('Internal Server Error'));
+  } finally {
+    activeTransaction = null; // Reset active transaction in finally block
   }
 });
 
