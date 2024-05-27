@@ -205,7 +205,7 @@ routerTicket.post('/active-transaction', async (req, res) => {
       await activeTransaction.rollback();
       res.status(400).json(processFalse('Invalid decision.'));
     }
-    // activeTransaction = null;
+    activeTransaction = null;
   } catch (error) {
     await activeTransaction.rollback();
     console.error('Error occurred:', error);
