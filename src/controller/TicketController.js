@@ -154,6 +154,33 @@ const getDBTicket = {
       throw error;
     }
   },
+  Notification: async (data) => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+      const query = `
+      select * 
+      from MyTicket
+      where PhoneNumber = @PhoneNumber and 
+      (DATEADD(DAY,1, CONVERT(date,GetDate() )) =  Convert(Date,StartTime) )
+      `;
+      request.input('PhoneNumber', data.PhoneNumber);
+      const result = await request.query(query);
+      const listNotification = result.recordset.map((record) => {
+        const _date = new Date(record.StartTime).toISOString();
+        const notification = {
+          Movie_Name: record.Movie_Name,
+          Date: _date.split('T')[0],
+          Time: _date.split('T')[1].slice(0, 5),
+        };
+        return notification;
+      });
+      return listNotification;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
 };
 
 module.exports = getDBTicket;

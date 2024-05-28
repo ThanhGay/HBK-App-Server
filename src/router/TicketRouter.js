@@ -125,6 +125,20 @@ routerTicket.get(
   },
 );
 
+routerTicket.get(
+  '/notification',
+  middlewareController.verifyToken,
+  async (req, res) => {
+    try {
+      const PhoneNumber = { PhoneNumber: req.PhoneNumber };
+      const data = await getDBTicket.Notification(PhoneNumber);
+      res.json(processTrue(data));
+    } catch (error) {
+      res.status(500).json(processFalse(error.message));
+    }
+  },
+);
+
 // Transaction
 let activeTransaction = null;
 
