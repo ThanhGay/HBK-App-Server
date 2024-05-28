@@ -162,7 +162,8 @@ const getDBTicket = {
       select * 
       from MyTicket
       where PhoneNumber = @PhoneNumber and 
-      (DATEADD(DAY,1, CONVERT(date,GetDate() )) =  Convert(Date,StartTime) )
+      (DATEADD(DAY,1, CONVERT(date,GetDate() )) =  Convert(Date,StartTime) or (
+      convert(time,StartTime) > convert(time,getdate() ) and convert(date,StartTime) = convert(date,(getdate())) ))
       `;
       request.input('PhoneNumber', data.PhoneNumber);
       const result = await request.query(query);
