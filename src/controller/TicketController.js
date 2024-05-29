@@ -145,7 +145,24 @@ const getDBTicket = {
       const request = pool.request();
       const query = `Select * 
             From MyTicket
-            Where PhoneNumber = @PhoneNumber`;
+            Where PhoneNumber = @PhoneNumber
+            Order by StartTime desc`;
+      request.input('PhoneNumber', data.PhoneNumber);
+      const result = await request.query(query);
+      return result.recordset;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+  MyTicketNotUse: async (data) => {
+    try {
+      const pool = await connection;
+      const request = pool.request();
+      const query = `Select * 
+            From MyTicket
+            Where PhoneNumber = @PhoneNumber and StartTime > GetDate()
+            Order by StartTime desc`;
       request.input('PhoneNumber', data.PhoneNumber);
       const result = await request.query(query);
       return result.recordset;

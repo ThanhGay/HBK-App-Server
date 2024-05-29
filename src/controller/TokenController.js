@@ -7,7 +7,7 @@ const Token = {
       { PhoneNumber, Role_Id },
       process.env.JWT_ACCESS_KEY,
       {
-        expiresIn: '1d',
+        expiresIn: '7d',
       },
     );
     return token;
