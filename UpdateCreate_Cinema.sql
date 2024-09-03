@@ -1,6 +1,6 @@
-﻿-- CREATE DATABASE UpdateCrossPlatformProject
--- USE UpdateCrossPlatformProject
--- drop DATABASE UpdateCrossPlatformProject
+﻿-- CREATE DATABASE CrossPlatformProject
+-- USE CrossPlatformProject
+-- drop DATABASE CrossPlatformProject
 
 ------------------------------------ Table -----------------------------------
 CREATE TABLE Category
